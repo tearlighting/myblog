@@ -28,6 +28,10 @@
 
   git merge
 
+  git push origin [branch]
+
+  git remote add origin git@github.com:tearlighting/myblogSever.git
+
 ```
 
 ```ts
