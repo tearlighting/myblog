@@ -1,0 +1,21 @@
+.navbar-style() {
+  .themeControl {
+    // background-color: red;
+    li {
+      //   background-color: @background;
+      //   color: @primary;
+      background-color: lighten(@primary, 20%);
+      &:hover {
+        background-color: @primary;
+      }
+      &.current {
+        background-color: darken(@primary, 10%);
+      }
+    }
+  }
+  .tooltip-container {
+    .tooltip-pop::after {
+      background-color: lighten(@primary, 20%);
+    }
+  }
+}

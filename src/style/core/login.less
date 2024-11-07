@@ -1,0 +1,77 @@
+.login-style() {
+  .login-container {
+    background-color: @dark;
+    .login-card {
+      display: flex;
+      flex-direction: column;
+      background-color: lighten(@dark, 10%);
+      box-shadow: 0 0 0.3em 0.4em lighten(@dark, 50%);
+      .title {
+        font-size: 1.4em;
+        text-align: center;
+        height: 4em;
+        line-height: 4em;
+        color: @lightword;
+        font-weight: bolder;
+      }
+      .content {
+        form {
+          display: flex;
+          flex-direction: column;
+          .form-item {
+            margin-bottom: 1em;
+            // text-align: center;
+            display: flex;
+            justify-content: center;
+            label {
+              text-align: end;
+              box-sizing: border-box;
+              //   padding-right: 0.4em;
+              color: darken(#f1f1f1, 10%);
+            }
+            .password {
+              color: @gray;
+            }
+            input {
+              height: 2.4em;
+              //   width: 200px;
+              outline: none;
+              border-radius: 0.2em;
+              border: 1px dotted;
+              box-sizing: border-box;
+
+              //   border-color: @gray;
+              &:focus {
+                // border: 1px !important;
+                // border-color: darken(@primary, 20%);
+                border: 1px dotted darken(@primary, 10%);
+              }
+            }
+            button {
+              //   box-shadow: 0 0 0.1em 0.1em lighten(@dark, 10%);
+              background-color: lighten(@lightword, 30%);
+              &:active {
+                box-shadow: 0 0 0.1em 0.1em lighten(@dark, 10%), 0 0 0.1em 0.3em lighten(@dark, 100%);
+              }
+
+              &.isLoading {
+                cursor: not-allowed;
+                background-color: lighten(@primary, 30%);
+                opacity: 0.7;
+                color: lighten(@lightword, 10%);
+              }
+            }
+
+            .captcha-container {
+              .img-container {
+                background-color: lighten(@word, 10%);
+                box-shadow: 0 0 0.3em 0.2em lighten(@dark, 50%);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  //   box-shadow: 0 0 10px #dcdfe6;
+}

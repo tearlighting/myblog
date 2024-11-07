@@ -1,0 +1,47 @@
+.message-style() {
+  //   :global(.light){
+  .message {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 4rem;
+    //   background-color: aqua;
+    line-height: 4rem;
+    padding: 0 2rem;
+    border-radius: 5%;
+    box-shadow: -1px 1px 3px lightgray;
+    transform: translate(-50%, -50%) translateY(2em);
+    opacity: 0;
+    transition: 0.5s;
+    white-space: nowrap;
+    &-info {
+      background-color: lighten(@warn, 20);
+    }
+    &-success {
+      background-color: @success;
+    }
+    &-error {
+      background-color: @danger;
+    }
+    &-warning {
+      background-color: @warn;
+    }
+  }
+  // }
+}
+
+.theme(@theme) when(@theme = dark) {
+  :global(.@{theme}) {
+    @import "~@/style/var/dark.less";
+    .message-style();
+  }
+}
+.theme(@theme) when (@theme = light) {
+  :global(.@{theme}) {
+    @import "~@/style/var/light.less";
+    .message-style();
+  }
+}
+
+.theme(light);
+.theme(dark);

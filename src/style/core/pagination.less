@@ -1,0 +1,23 @@
+.pagination-style() {
+  .pagination-container {
+    a {
+      color: @primary;
+      //   &:hover {
+      //     color: @primary;
+
+      //   }
+      &.disabled {
+        color: @lightword;
+        &:hover {
+          color: @lightword;
+        }
+      }
+      &.active {
+        color: @word;
+      }
+      &:hover {
+        color: lighten(@primary, 10%);
+      }
+    }
+  }
+}

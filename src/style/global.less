@@ -1,0 +1,135 @@
+@import "./phone/index.less";
+html,
+body,
+#app {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  .app-container {
+    height: 100%;
+  }
+  .preview-container {
+    height: 100%;
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+    // align-items: center;
+    display: grid;
+    grid-template-rows: 5% 2fr 1fr;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    .title {
+      font-weight: bold;
+      display: block;
+      max-height: 2em;
+    }
+    .content {
+      position: relative;
+      //   align-self: center;
+      //   min-height: 100px;
+    }
+    .desc {
+      pre {
+        margin-top: 0;
+        margin-bottom: 0;
+        border: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+.global-style() {
+  #app {
+    color: @word;
+    background-color: @background;
+    .scrollbar-style();
+    .layout-conter-cneter {
+      background-color: @routerviewBackground;
+    }
+    min-width: 300px;
+    ul {
+      padding-inline-start: 0;
+      margin: 0;
+      li {
+        list-style: none;
+      }
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  @media screen and (max-width: 900px) {
+    .layout-right {
+      display: none;
+      //   background-color: red;
+    }
+    .about();
+  }
+  @media screen and (max-width: 700px) {
+    .layout-container.layout {
+      .layout-left {
+        .aside-container {
+          overflow-y: hidden;
+          width: 70px !important;
+          .avater-container {
+            width: 70px !important;
+            img {
+              width: 50px !important;
+              height: 50px !important;
+            }
+          }
+          .user {
+            display: none;
+          }
+          .menu-container,
+          .contact-container {
+            .item {
+              transform: translateX(0) !important;
+            }
+            .item-content {
+              display: none !important;
+            }
+          }
+        }
+      }
+    }
+    .layout();
+    .home();
+    .blog();
+    .project();
+    .about();
+    .hobby();
+  }
+}
+.scrollbar-style() {
+  /* 自定义整个滚动条 */
+
+  ::-webkit-scrollbar {
+    width: 10px; /* 设置滚动条的宽度 */
+  }
+
+  /* 自定义滚动条轨道 */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 设置轨道的背景颜色 */
+  }
+
+  /* 自定义滚动条的滑块（thumb） */
+  ::-webkit-scrollbar-thumb {
+    background: #cecece; /* 设置滑块的背景颜色 */
+    border-radius: 5px;
+  }
+
+  /* 当滑块悬停或活动时自定义滚动条的滑块 */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 设置滑块在悬停状态下的背景颜色 */
+  }
+}

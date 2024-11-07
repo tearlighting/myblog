@@ -1,0 +1,16 @@
+.layout-style(@theme) {
+  //   @asideBackground: transparent;
+
+  .setThemeStyle(@theme);
+  .layout-container {
+    .aside-container {
+      background-color: @asideBackground;
+    }
+  }
+}
+.setThemeStyle(@theme) when (@theme= dark ) {
+  @asideBackground: @dark;
+}
+.setThemeStyle(@theme) when (@theme = light) {
+  @asideBackground: @dark;
+}

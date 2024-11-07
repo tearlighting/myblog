@@ -1,0 +1,23 @@
+@import "./global.less";
+@import './core/index.less';
+@import './icons/index.less';
+@import './markdown.css';
+
+.theme(@theme) when(@theme = dark) {
+	.@{theme}{
+		@import './var/dark.less';
+		.global-style();
+		.core(@theme);
+	}
+}
+.theme(@theme) when (@theme = light){
+	.@{theme}{
+		@import './var/light.less';
+		.global-style();
+		.core(@theme);
+
+	}
+}
+
+.theme(light);
+.theme(dark);

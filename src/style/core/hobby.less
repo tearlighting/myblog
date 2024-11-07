@@ -1,0 +1,12 @@
+.hobby-style() {
+  .hobby-item-container {
+    &.current {
+      color: lighten(@primary, 5%);
+    }
+    &:nth-child(2n) {
+      li {
+        background-color: lighten(@gray, 20%);
+      }
+    }
+  }
+}

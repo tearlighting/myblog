@@ -1,0 +1,42 @@
+.blog-style() {
+  .blog-menu-container {
+    li {
+      color: @word;
+      &.current {
+        color: @warn;
+      }
+    }
+  }
+  .blog-list-container {
+    color: lighten(@word, 10%);
+    // &:nth-child(2n) {
+    //   li {
+    //     background-color: lighten(@gray, 20%);
+    //   }
+    // }
+
+    li {
+      border-bottom: 1px solid lighten(@lightword, 20%);
+
+      //   background-color: red;
+    }
+    .aside {
+      color: @lightword;
+    }
+    .main {
+      .aside span,
+      a,
+      .desc,
+      h2 {
+        &:hover {
+          color: @primary;
+        }
+      }
+    }
+  }
+  .blog-detail-container {
+    .aside {
+      color: @lightword;
+    }
+  }
+}

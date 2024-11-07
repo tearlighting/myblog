@@ -1,0 +1,40 @@
+.message-area-style() {
+  .message-area-container {
+    .data-list-container {
+      li {
+        border-bottom: 1px solid lighten(@gray, 20%);
+      }
+      .nickname {
+        color: darken(@success, 10%);
+      }
+      .time {
+        color: @gray;
+      }
+    }
+    .data-form-container {
+      input,
+      textarea {
+        border: 1px dashed @gray;
+        color: @word;
+        &:focus {
+          border-color: @primary;
+        }
+      }
+      .error {
+        color: @danger;
+      }
+      button {
+        background: @primary;
+
+        &:hover {
+          background: darken(@primary, 10%);
+        }
+
+        &:disabled {
+          background: lighten(@primary, 20%);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

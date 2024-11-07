@@ -1,0 +1,57 @@
+.self-center-position(@position: absolute) {
+  position: @position;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.self-center-flex(@direction:row) {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: @direction;
+}
+.self-center-grid() {
+  display: grid;
+  height: 100%;
+  justify-content: center;
+  align-content: center;
+}
+
+.self-fill-float() {
+  width: 100%;
+  height: 100%;
+  float: left;
+  position: absolute;
+  left: 0;
+  top:0
+}
+
+@keyframes circleRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(0.5turn);
+  }
+
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes lineScale {
+  0% {
+    transform: scaleY(1);
+  }
+
+  50% {
+    transform: scaleY(1.3);
+  }
+
+  100% {
+    transform: scaleY(0.9);
+  }
+}

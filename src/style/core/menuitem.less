@@ -1,0 +1,32 @@
+.menu-item-style() {
+  .menu-item-container {
+    .item {
+      //   background-color: @background;
+      color: @lightword;
+      &:hover {
+        color: lighten(@gray, 20%);
+      }
+    }
+    &.currentRouter {
+      background: darken(@lightword, 30%);
+
+      .item {
+        color: lighten(@lightword, 50%);
+      }
+    }
+    .item-tooltip {
+      background-color: @primary;
+    }
+  }
+  .aside-container{
+	.user{
+		color: lighten(@lightword,20%);
+		font-weight: bold;
+		font-size: 1.2em;
+		text-align: center;
+		margin-top: .5em;
+
+	}
+  }
+  
+}
