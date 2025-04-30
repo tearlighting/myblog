@@ -38,6 +38,9 @@ importers:
       js-base64:
         specifier: ^2.6.2
         version: 2.6.4
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       screenfull:
         specifier: ^4.2.1
         version: 4.2.1
@@ -66,6 +69,9 @@ importers:
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.10
+      '@types/prismjs':
+        specifier: ^1.26.5
+        version: 1.26.5
       '@vue/cli-plugin-babel':
         specifier: ~4.5.0
         version: 4.5.19(@vue/cli-service@4.5.19(@vue/compiler-sfc@3.4.31)(less-loader@5.0.0(less@3.13.1)(webpack@4.47.0))(lodash@4.17.21)(typescript@4.1.6)(vue-template-compiler@2.7.16)(vue@2.7.16))(core-js@3.37.1)(vue@2.7.16)
@@ -84,6 +90,9 @@ importers:
       babel:
         specifier: ^6.23.0
         version: 6.23.0
+      babel-plugin-prismjs:
+        specifier: ^2.1.0
+        version: 2.1.0(prismjs@1.30.0)
       file-loader:
         specifier: ^6.2.0
         version: 6.2.0(webpack@4.47.0)
@@ -865,6 +874,9 @@ packages:
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
+  '@types/prismjs@1.26.5':
+    resolution: {integrity: sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ==}
+
   '@types/q@1.5.8':
     resolution: {integrity: sha512-hroOstUScF6zhIi+5+x0dzqrHA1EJi+Irri6b1fxolMTqqHIV/Cg77EtnQcZqZCu8hR3mX2BzIxN4/GzI68Kfw==}
 
@@ -1358,6 +1370,11 @@ packages:
     resolution: {integrity: sha512-2R25rQZWP63nGwaAswvDazbPXfrM3HwVoBXK6HcqeKrSrL/JqcC/rDcf95l4r7LXLyxDXc8uQDa064GubtCABg==}
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
+
+  babel-plugin-prismjs@2.1.0:
+    resolution: {integrity: sha512-ehzSKYfeAz4U78zi/sfwsjDPlq0LvDKxNefcZTJ/iKBu+plsHsLqZhUeGf1+82LAcA35UZGbU6ksEx2Utphc/g==}
+    peerDependencies:
+      prismjs: ^1.18.0
 
   babel@6.23.0:
     resolution: {integrity: sha512-ZDcCaI8Vlct8PJ3DvmyqUz+5X2Ylz3ZuuItBe/74yXosk2dwyVo/aN7MCJ8HJzhnnJ+6yP4o+lDgG9MBe91DLA==}
@@ -2588,7 +2605,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -4023,6 +4040,10 @@ packages:
     resolution: {integrity: sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==}
     engines: {node: '>=0.8'}
     hasBin: true
+
+  prismjs@1.30.0:
+    resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
+    engines: {node: '>=6'}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -6143,6 +6164,8 @@ snapshots:
   '@types/parse-json@4.0.2':
     optional: true
 
+  '@types/prismjs@1.26.5': {}
+
   '@types/q@1.5.8': {}
 
   '@types/qs@6.9.15': {}
@@ -6947,6 +6970,10 @@ snapshots:
       '@babel/helper-define-polyfill-provider': 0.6.2(@babel/core@7.24.8)
     transitivePeerDependencies:
       - supports-color
+
+  babel-plugin-prismjs@2.1.0(prismjs@1.30.0):
+    dependencies:
+      prismjs: 1.30.0
 
   babel@6.23.0: {}
 
@@ -9872,6 +9899,8 @@ snapshots:
       renderkid: 2.0.7
 
   printj@1.1.2: {}
+
+  prismjs@1.30.0: {}
 
   process-nextick-args@2.0.1: {}
 

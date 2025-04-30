@@ -1,6 +1,9 @@
-# 注意
+# MyBlog
 
-个人主页制作，好久没有用 vue2 了,就用了一下。
-vue2 用起来感觉真难受，可能哪天会用 vue3 重构一下吧。
+🌏 请选择语言 | Please select a language | 言語を選択してください
 
-node 的后台等会传
+- [中文简体 (Simplified Chinese)](./readme.zh.md)
+- [English](./readme.en.md)
+- [日本語 (Japanese)](./readme.jp.md)
+
+# backend myblog Server
