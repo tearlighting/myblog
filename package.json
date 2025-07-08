@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build"
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --mode development",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --mode production"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
@@ -37,6 +37,7 @@
     "@vue/cli-service": "~4.5.0",
     "babel": "^6.23.0",
     "babel-plugin-prismjs": "^2.1.0",
+    "cross-env": "^7.0.3",
     "file-loader": "^6.2.0",
     "js-export-excel": "^1.1.4",
     "less": "^3.0.4",

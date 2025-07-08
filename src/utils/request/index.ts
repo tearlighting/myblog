@@ -1,7 +1,7 @@
 import { getAuthorization, setAuthorization } from "@/hooks/useAuthorization"
 import axios, { AxiosRequestConfig } from "axios"
 
-function useRequestHook({ baseURL = "/api", timeout = 5000 }: AxiosRequestConfig = {}) {
+function useRequestHook({ baseURL = process.env.VUE_APP_API_PREFIX, timeout = 5000 }: AxiosRequestConfig = {}) {
   const instance = axios.create({
     baseURL,
     timeout,
@@ -37,6 +37,6 @@ function useRequestHook({ baseURL = "/api", timeout = 5000 }: AxiosRequestConfig
   return { request }
 }
 
-const { request } = useRequestHook({ baseURL: "http://localhost:8888/api" })
+const { request } = useRequestHook()
 
 export default request
