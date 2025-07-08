@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --mode development",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --mode production"
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider  vue-cli-service serve --mode development",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build --mode production"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
