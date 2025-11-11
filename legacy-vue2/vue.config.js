@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "./",
+  publicPath: "/blog",
   indexPath: "index.html",
   configureWebpack: {
     module: {
@@ -28,6 +28,20 @@ module.exports = {
           ],
         },
       ],
+    },
+  },
+  devServer: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:8888",
+        changeOrigin: true,
+        // pathRewrite: { "^/api": "" },
+        // logLevel: "debug", // 💡 关键：打印详细代理日志
+      },
+      "/uploads": {
+        target: "http://localhost:8888",
+        changeOrigin: true,
+      },
     },
   },
 }

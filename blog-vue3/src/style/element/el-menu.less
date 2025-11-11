@@ -1,0 +1,21 @@
+.el-menu {
+  .myCard();
+  .el-menu-item {
+    .myCard();
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
+    }
+    &.is-active {
+      color: var(--color-primary) !important;
+    }
+  }
+}
+.el-sub-menu {
+  .myCard();
+  .el-sub-menu__title {
+    color: var(--color-text) !important;
+    &:hover {
+      background-color: color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
+    }
+  }
+}
