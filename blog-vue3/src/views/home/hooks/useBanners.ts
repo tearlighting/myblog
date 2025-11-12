@@ -1,13 +1,21 @@
 import type { IBannerItem } from "home"
 import { reactive } from "vue"
 
-interface IUseBanners extends IDisposableStore {
+
+
+export interface IUseBannerInitalProps {
+  banners: IBannerItem[]
+}
+
+interface IUseBanners extends IDisposableStore<IUseBannerInitalProps> {
   banners: IBannerItem[]
   currentIndex: {
     current: number
   }
   dynammicRenderControl: Record<number, string>
 }
+
+
 
 export const useBanners = (): IUseBanners => {
   const banners = reactive<IBannerItem[]>([])
@@ -16,7 +24,9 @@ export const useBanners = (): IUseBanners => {
   })
   const dynammicRenderControl = reactive<Record<number, string>>({})
 
-  const init = () => {}
+  const init: IUseBanners['init'] = (payload) => {
+    banners.push(...payload.banners)
+  }
   const dispose = () => {
     banners.length = 0
     currentIndex.current = 0
