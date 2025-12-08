@@ -10,21 +10,30 @@ export interface IMenuTree {
   isSelected?: boolean
   aside?: string
 }
-
+export interface IBlogTranslation {
+  blogId: string
+  id: string
+  lang: string
+  title: string
+  description: string
+  toc: string
+  htmlContent: string
+}
 export interface IArticleItem {
   id: string
   thumb: string
-  title: string
-  description: string
   category: {
     id: string
     name: string
   }
-
   createDate: string
   scanNumber: number
   commentNumber: number
+  translations: IBlogTranslation[]
 }
+
+
+
 
 export interface IBlogCategory {
   id: string

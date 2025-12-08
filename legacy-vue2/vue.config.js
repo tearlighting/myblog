@@ -33,14 +33,15 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:8888",
+        target: "https://tearlighting.com" || "http://localhost:8888",
         changeOrigin: true,
-        // pathRewrite: { "^/api": "" },
-        // logLevel: "debug", // 💡 关键：打印详细代理日志
+        // pathRewrite: { "^/api": "/api/tearlightingblog" },
+        logLevel: "debug",
       },
-      "/uploads": {
-        target: "http://localhost:8888",
+      "/tearlightingblog/uploads": {
+        target: "https://tearlighting.com" || "http://localhost:8888",
         changeOrigin: true,
+        logLevel: "debug",
       },
     },
   },

@@ -1,14 +1,13 @@
 import { request } from "@/utils"
-import type { IArticleItem, IBlogCategory, IGetArticleProps, IArticles, IDetailArticle, ICommentProps, ICommentItem } from "blog"
-import { htmlContent, htmlContent2 } from "./res"
-import { blogtype, blogComments, blogDetail, blogDetail4JP, blogs, blogs4JP } from "./mock"
-const getBlogCategory = () => {
+import type { IArticles, IBlogCategory, ICommentItem, ICommentProps, IDetailArticle, IGetArticleProps } from "blog"
+import { blogComments, blogDetail, blogDetail4JP, blogs, blogs4JP, blogtype } from "./mock"
+export const getBlogTypes = () => {
   return request<IBlogCategory[]>({
     url: "/blog/blogtype",
   }).catch((e) => blogtype)
 }
 
-const getArticles = <T extends IGetArticleProps>(data: T) => {
+export const getArticles = <T extends IGetArticleProps>(data: T) => {
   return request<IArticles>({
     url: "/blog",
     params: data,
@@ -31,7 +30,7 @@ const getArticles = <T extends IGetArticleProps>(data: T) => {
   })
 }
 
-const getArticle = (id: string, type?: string) => {
+export const getArticle = (id: string, type?: string) => {
   return request<IDetailArticle>({
     url: `/blog/detail/${id}`,
     params: {
@@ -46,7 +45,7 @@ const getArticle = (id: string, type?: string) => {
   })
 }
 
-const postComment = ({ name = "@cname", content }: ICommentProps) => {
+export const postComment = ({ name = "@cname", content }: ICommentProps) => {
   return request({
     method: "post",
     url: "/comment",
@@ -62,10 +61,10 @@ const postComment = ({ name = "@cname", content }: ICommentProps) => {
         "https://qiheizhiya.oss-cn-shenzhen.aliyuncs.com/image/avatar2.jpg",
       ],
     }),
-  }).catch((e) => {})
+  }).catch((e) => { })
 }
 
-const getComment = ({ blogId }: { blogId: string }) => {
+export const getComment = ({ blogId }: { blogId: string }) => {
   return request<{ total: number; rows: ICommentItem[] }>({
     url: "/comment",
     params: {
@@ -76,4 +75,4 @@ const getComment = ({ blogId }: { blogId: string }) => {
   })
 }
 
-export { getArticles, getBlogCategory, getArticle, postComment, getComment }
+
