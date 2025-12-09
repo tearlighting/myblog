@@ -29,12 +29,11 @@ watchEffect(() => {
 		<template v-slot:centerLine2>
 			<TagViews></TagViews>
 		</template>
-		<div role="page-host " class="size-full overflow-auto bg-bg text-text" ref="hostRef">
+		<div role="page-host " class="size-full overflow-auto bg-bg text-text relative" ref="hostRef">
 			<RouterView #="{ Component }">
 				<KeepAlive :include="allCachedTags">
 					<component :is="Component" :key="currentRoute.name" />
 				</KeepAlive>
-
 			</RouterView>
 		</div>
 	</PanelContainer>

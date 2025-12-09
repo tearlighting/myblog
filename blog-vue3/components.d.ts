@@ -19,6 +19,7 @@ declare module 'vue' {
     MenuSwitch: typeof import('./src/components/NavBar/MenuSwitch.vue')['default']
     MenuTitle: typeof import('./src/components/NavBar/MenuTitle.vue')['default']
     NavBar: typeof import('./src/components/NavBar/index.vue')['default']
+    PageLoader: typeof import('./src/components/PageLoader/index.vue')['default']
     PanelContainer: typeof import('./src/components/PanelContainer/index.vue')['default']
     Permission: typeof import('./src/components/Permission/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

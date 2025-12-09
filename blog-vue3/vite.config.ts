@@ -28,12 +28,12 @@ export default defineConfig({
     proxy: {
       // 匹配到 /api 前缀的请求，转发到目标服务器
       "/api": {
-        target: "http://localhost:8888", // 后端地址
+        target: "https://tearlighting.com" || "http://localhost:8888", // 后端地址
         changeOrigin: true, // 修改请求头 origin
         // 如果后端就是 /upload/imgs，就不用改；如果是 /imgs，就写成 path => path.replace(/^\/upload/, "")
       },
-      "/uploads": {
-        target: "http://localhost:8888",
+      "/tearlightingblog/uploads": {
+        target: "https://tearlighting.com" || "http://localhost:8888",
         changeOrigin: true,
       },
     },
