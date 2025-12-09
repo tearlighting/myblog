@@ -2,7 +2,7 @@
 import BlogMenu from "@/components/blog/blogMenu.vue"
 import LayOut from "@/components/layout/index.vue"
 import Pagination from "@/components/pagination/index.vue"
-import { IArticleItem, IBlogCategory } from "blog"
+import { IBlogItem, IBlogTypeItem } from "blog"
 import Vue from "vue"
 
 import { BlogApi } from "@/api"
@@ -34,7 +34,7 @@ export default Vue.extend({
     ArticleItem,
   },
   methods: {
-    blogCategoryChange(item: IBlogCategory) {
+    blogCategoryChange(item: IBlogTypeItem) {
       // console.log(item);
       // if(){}
       if (item.id === this.routeInfo.id) {
@@ -79,8 +79,6 @@ export default Vue.extend({
     },
 
     toDetailPage(id: string) {
-      console.log(id)
-
       this.$router.push({
         name: "blogDetail",
         params: {
@@ -92,11 +90,11 @@ export default Vue.extend({
   mixins: [
     createRequestMixins({
       key: EMixinsData.articles as "articles",
-      defaultValue: [] as IArticleItem[],
+      defaultValue: [] as IBlogItem[],
     }),
     createRequestMixins({
       key: EMixinsData.blogMenu as "blogMenu",
-      defaultValue: [] as IBlogCategory[],
+      defaultValue: [] as IBlogTypeItem[],
     }),
     createToTopControl({
       refName: "blogContent",
@@ -130,8 +128,8 @@ export default Vue.extend({
       return this.articles.filter((x, i) => i >= (current - 1) * pageSize && i < current * pageSize)
     },
     blogCategoryWithALL() {
-      const all = { id: "ALLID", name: "ALL", articleCount: 0, order: "0", isSelected: !this.routeInfo.id } as IBlogCategory & { isSelected: boolean; aside?: string; articleCount: number }
-      const res: (IBlogCategory & { isSelected: boolean; aside?: string })[] = [all]
+      const all = { id: "ALLID", name: "ALL", articleCount: 0, order: "0", isSelected: !this.routeInfo.id } as IBlogTypeItem & { isSelected: boolean; aside?: string; articleCount: number }
+      const res: (IBlogTypeItem & { isSelected: boolean; aside?: string })[] = [all]
       for (let i of this.blogMenu) {
         res.push({ ...i, isSelected: this.routeInfo.id === i.id, aside: `${i.articleCount}篇` })
         all.articleCount += +i.articleCount
@@ -187,11 +185,6 @@ export default Vue.extend({
       this.paginationData.pageSize = limit
       // console.log(this.routeInfo);
       this.getArticles()
-    },
-    "$i18n.locale": {
-      handler(n) {
-        this.getArticles()
-      },
     },
   },
 })

@@ -1,16 +1,16 @@
 <template>
-	<div id="app">
-		<router-view></router-view>
-		<ToTop />
-	</div>
+  <div id="app">
+    <router-view></router-view>
+    <ToTop />
+  </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-import ToTop from '@/components/toTop/index.vue'
+import ToTop from "@/components/toTop/index.vue"
+import Vue from "vue"
 export default Vue.extend({
-	components: {
-		ToTop
-	}
+  components: {
+    ToTop,
+  },
 })
 </script>
 

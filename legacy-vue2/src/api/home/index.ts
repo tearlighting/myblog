@@ -10,8 +10,6 @@ export async function getBanners() {
       res.data.forEach((item) => {
         item.bigImg = addSiteBaseToUrl(item.bigImg)
       })
-      console.log(res.data);
-
       return res
     })
 }

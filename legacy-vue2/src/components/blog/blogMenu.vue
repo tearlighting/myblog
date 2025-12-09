@@ -18,7 +18,6 @@ export default Vue.extend({
   methods: {
     hidenMenu(payload: MouseEvent) {
       const target = payload.target as HTMLElement
-
       const children = target.nextElementSibling
       if (children) {
         if (children.classList.contains(this.hidenClass)) {
@@ -28,23 +27,16 @@ export default Vue.extend({
         }
       }
     },
+    onMenuChange(item: IMenuTree) {
+      this.$emit("menuChange", item)
+    },
   },
 
   computed: {
     listTree(): IMenuTree[] {
       return listToTree<IList, IMenuTree>(this.list)
     },
-    routeInfo(): Record<"id", number> {
-      const { id = -1 } = this.$route.params
-      return { id: +id }
-    },
   },
-  // watch: {
-  // 	list() {
-  // 		console.log(this.list);
-
-  // 	}
-  // }
 })
 </script>
 
@@ -52,9 +44,9 @@ export default Vue.extend({
   <div class="blog-menu-container">
     <title class="tilie"><slot></slot></title>
     <ul>
-      <li v-for="item of listTree" :key="item.name" @click.stop="$emit('menuChange', item)" :class="{ current: item.isSelected }">
+      <li v-for="item of listTree" :key="item.name" @click.stop="onMenuChange(item)" :class="{ current: item.isSelected }">
         <span class="name" @dblclick.self="hidenMenu">{{ item.name }}</span> <span v-if="item.aside" class="aside">{{ item.aside }}</span>
-        <BlogMenu v-if="item.children?.length" :list="item.children" @menuChange="(e) => $emit('menuChange', e)"> </BlogMenu>
+        <BlogMenu v-if="item.children?.length" :list="item.children" @menuChange="onMenuChange"> </BlogMenu>
       </li>
     </ul>
   </div>

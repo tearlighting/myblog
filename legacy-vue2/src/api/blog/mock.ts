@@ -1,4 +1,4 @@
-import { IArticles, IBlogCategory, ICommentItem, IDetailArticle } from "blog"
+import { IArticles, IBlogTypeItem, ICommentItem, IDetailArticle } from "blog"
 
 export const blogtype = {
   code: 200,
@@ -18,7 +18,7 @@ export const blogtype = {
     { id: 74, name: "NPM", articleCount: 1, order: 13 },
     { id: 75, name: "Others", articleCount: 0, order: 14 },
   ],
-} as unknown as IResponse<IBlogCategory[]>
+} as unknown as IResponse<IBlogTypeItem[]>
 
 export const blogs4JP = {
   code: 200,

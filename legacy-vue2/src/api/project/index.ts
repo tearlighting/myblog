@@ -1,23 +1,21 @@
 import { request } from "@/utils"
-import { IDetailArticle } from "blog"
-import { htmlContent } from "../blog/res"
-import { projects, projects4JP } from "./projects"
-import { projectItem, projectItem4JP } from "./projectItem"
+import { addSiteBaseToUrl } from "@/utils/resource"
+import { IArticles, IDetailArticle } from "blog"
+import { IProjectItem } from "project"
 
 interface IPagination {
   page: number
   limit: number
 }
 export const getProjects = <T extends IPagination>(data: T) => {
-  return request<{ total: number; rows: IDetailArticle[] }>({
+  return request<IArticles<IProjectItem>>({
     url: "/project",
     params: data,
-  }).catch(() => {
-    if ((data as any).type === "jp") {
-      return projects4JP
-    } else {
-      return projects
-    }
+  }).then(res => {
+    res.data.rows.forEach(x =>
+      x.thumb = addSiteBaseToUrl(x.thumb)
+    )
+    return res
   })
 }
 
@@ -27,11 +25,5 @@ export const getArticle = (id: string, type?: string) => {
     params: {
       ...(type ? { type } : {}),
     },
-  }).catch((e) => {
-    if (type == "jp") {
-      return projectItem4JP[id]
-    } else {
-      return projectItem[id]
-    }
   })
 }

@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router"
-import DefaultLayout from "@/layout/DefaultLayout.vue"
 import { EPemission } from "@/constants"
 import { EIcons } from "@/constants/icons"
+import DefaultLayout from "@/layout/DefaultLayout.vue"
 import { createRoutes } from "@/utils"
+import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router"
 
 /**
  * 设计的就是具名路由,想要keepAlive的话,组件里面必须同步设置name,否则无法生效
@@ -118,6 +118,26 @@ export const routes = createRoutes([
       },
     ],
   },
+  {
+
+    path: "/test",
+    component: DefaultLayout,
+    meta: {
+      hidden: true,
+      roles: [EPemission.visitor],
+    },
+    children: [
+      {
+        path: "",
+        name: "test",
+        component: () => import("@/views/home/index.vue"),
+        meta: {
+          title: "test",
+          roles: [EPemission.visitor],
+        },
+      }
+    ]
+  }
 ])
 
 const router = createRouter({

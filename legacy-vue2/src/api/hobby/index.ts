@@ -1,5 +1,5 @@
 import { request } from "@/utils"
-import { IArticleItem, IBlogCategory } from "blog"
+import { IBlogItem, IBlogTypeItem } from "blog"
 const imgs = {
   hanataba: require("@/assets/hanataba.jpeg"),
   honmura: require("@/assets/honmura.jpg"),
@@ -13,7 +13,7 @@ const imgs = {
 }
 
 export const getHobbyList = ({ id = -1 }) => {
-  return request<{ rows: Partial<IArticleItem> & { audio: string }; total: number }>({ url: "hobby" }).catch(() => {
+  return request<{ rows: Partial<IBlogItem> & { audio: string }; total: number }>({ url: "hobby" }).catch(() => {
     const res = [
       {
         thumb: imgs.whiteAlbum2,
@@ -154,10 +154,10 @@ export const getHobbyList = ({ id = -1 }) => {
 }
 
 export const getHobbyMenu = () => {
-  return request<{ rows: IBlogCategory[]; total: number }>({
+  return request<{ rows: IBlogTypeItem[]; total: number }>({
     url: "hobby/hobbyType",
   }).catch(() => {
-    const res: IBlogCategory[] = [
+    const res: IBlogTypeItem[] = [
       {
         id: "1",
         name: "Song",

@@ -10,16 +10,24 @@ export interface IMenuTree {
   isSelected?: boolean
   aside?: string
 }
+
+type Toc = {
+  anchor: string
+  name: string
+  tag: string
+  children: Toc[]
+}
+
 export interface IBlogTranslation {
   blogId: string
   id: string
   lang: string
   title: string
   description: string
-  toc: string
+  toc: Toc[]
   htmlContent: string
 }
-export interface IArticleItem {
+export interface IBlogItem {
   id: string
   thumb: string
   category: {
@@ -35,7 +43,7 @@ export interface IArticleItem {
 
 
 
-export interface IBlogCategory {
+export interface IBlogTypeItem {
   id: string
   name: string
   articleCount: string | number
@@ -48,28 +56,22 @@ export interface IGetArticleProps {
   limit: number
 }
 
-export interface IArticles {
+export interface IArticles<T = IBlogItem> {
   total: number
-  rows: IArticleItem[]
+  rows: T[]
 }
 
 export interface IDetailArticle {
   id: string
-  title: string
+
   category: {
     id: number
     name: string
   }
-  description: string
   scanNumber: number
   commentNumber: number
   createDate: string
-  toc: {
-    name: string
-    anchor: string
-    children?: IDetailArticle["toc"][]
-  }[]
-  htmlContent: string
+  translations: IBlogTranslation[]
 }
 
 export interface ICommentProps {

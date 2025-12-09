@@ -32,7 +32,7 @@
 import SvgIcon from "@/components/svgIcon/index.vue"
 import { i18n } from "@/plugins/i18n"
 import { faCalendar, faComment, faEye } from "@fortawesome/free-regular-svg-icons"
-import type { IArticleItem, IBlogTranslation } from "blog"
+import type { IBlogItem, IBlogTranslation } from "blog"
 import Vue from "vue"
 export default Vue.extend({
   props: {
@@ -60,7 +60,7 @@ export default Vue.extend({
               htmlContent: "",
             } as unknown as IBlogTranslation,
           ],
-        } as unknown as IArticleItem),
+        } as unknown as IBlogItem),
     },
     handleClickTitle: {
       default: () => (id: string) => {},

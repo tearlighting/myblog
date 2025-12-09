@@ -6,14 +6,14 @@ import LayOut from "@/components/layout/index.vue"
 import Pagination from "@/components/pagination/index.vue"
 import { createMainScrollerControl, createRequestMixins, createToTopControl } from "@/mixins"
 import { i18n } from "@/plugins/i18n"
-import { IArticleItem, IBlogCategory } from "blog"
+import { IBlogItem, IBlogTypeItem } from "blog"
 import Vue, { nextTick } from "vue"
 import Aplayer from "vue-aplayer"
 
 export default Vue.extend({
   data() {
     return {
-      currentItem: null as Partial<IArticleItem> & { audio: string },
+      currentItem: null as Partial<IBlogItem> & { audio: string },
       playButton: null as HTMLButtonElement,
     }
   },
@@ -27,11 +27,11 @@ export default Vue.extend({
   mixins: [
     createRequestMixins({
       key: "hobbyList" as "hobbyList",
-      defaultValue: [] as IArticleItem[],
+      defaultValue: [] as IBlogItem[],
     }),
     createRequestMixins({
       key: "hobbyMenu" as "hobbyMenu",
-      defaultValue: [] as IBlogCategory[],
+      defaultValue: [] as IBlogTypeItem[],
     }),
     createToTopControl({
       refName: "hobbyContent",
@@ -70,7 +70,7 @@ export default Vue.extend({
           this.hobbyMenuLoading = false
         })
     },
-    blogCategoryChange(item: IBlogCategory) {
+    blogCategoryChange(item: IBlogTypeItem) {
       if (+item.id === this.routeInfo.id) {
         return
       }
@@ -87,7 +87,7 @@ export default Vue.extend({
         })
       }
     },
-    playMusic(item: Partial<IArticleItem> & { audio: string }) {
+    playMusic(item: Partial<IBlogItem> & { audio: string }) {
       if (this.currentItem?.id === item.id) {
         return
       }
@@ -114,8 +114,8 @@ export default Vue.extend({
       return res
     },
     categoryWithALL() {
-      const all = { id: "-1", name: "ALL", articleCount: 0, order: "0", isSelected: this.routeInfo.id === -1 } as IBlogCategory & { isSelected: boolean; aside?: string; articleCount: number }
-      const res: (IBlogCategory & { isSelected: boolean; aside?: string })[] = [all]
+      const all = { id: "-1", name: "ALL", articleCount: 0, order: "0", isSelected: this.routeInfo.id === -1 } as IBlogTypeItem & { isSelected: boolean; aside?: string; articleCount: number }
+      const res: (IBlogTypeItem & { isSelected: boolean; aside?: string })[] = [all]
       for (let i of this.hobbyMenu) {
         res.push({ ...i, isSelected: this.routeInfo.id === +i.id, aside: `${i.articleCount}篇` })
         all.articleCount += +i.articleCount

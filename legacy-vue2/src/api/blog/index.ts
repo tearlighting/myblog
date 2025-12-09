@@ -1,8 +1,9 @@
 import { request } from "@/utils"
-import type { IArticles, IBlogCategory, ICommentItem, ICommentProps, IDetailArticle, IGetArticleProps } from "blog"
-import { blogComments, blogDetail, blogDetail4JP, blogs, blogs4JP, blogtype } from "./mock"
+import { addSiteBaseToUrl } from "@/utils/resource"
+import type { IArticles, IBlogTypeItem, ICommentItem, ICommentProps, IDetailArticle, IGetArticleProps } from "blog"
+import { blogComments, blogDetail, blogDetail4JP, blogtype } from "./mock"
 export const getBlogTypes = () => {
-  return request<IBlogCategory[]>({
+  return request<IBlogTypeItem[]>({
     url: "/blog/blogtype",
   }).catch((e) => blogtype)
 }
@@ -11,21 +12,10 @@ export const getArticles = <T extends IGetArticleProps>(data: T) => {
   return request<IArticles>({
     url: "/blog",
     params: data,
-  }).catch((e) => {
-    console.log(data)
-    let res: IResponse<IArticles>
-    if ((data as any).type === "jp") {
-      res = JSON.parse(JSON.stringify(blogs4JP))
-    } else {
-      res = JSON.parse(JSON.stringify(blogs))
-    }
-
-    if (data.id && +data.id !== -1) {
-      //   console.log(data.id)
-      res.data.rows = res.data.rows.filter((x) => x.category.id === data.id)
-    }
-    // console.log(res, "res")
-
+  }).then(res => {
+    res.data.rows.forEach(x =>
+      x.thumb = addSiteBaseToUrl(x.thumb)
+    )
     return res
   })
 }
