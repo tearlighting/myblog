@@ -8,6 +8,7 @@ export const menuManager = createMenuManager()
 export const useMenuStore = defineStore("menu", () => {
   const isCollapse = ref(menuManager.isCollapsed())
   const isHidden = ref(menuManager.isHidden())
+  const expandedKeys = ref<string[]>([])
   function syncMenuInfo() {
     isCollapse.value = menuManager.isCollapsed()
     isHidden.value = menuManager.isHidden()
@@ -16,6 +17,7 @@ export const useMenuStore = defineStore("menu", () => {
     isCollapse,
     isHidden,
     syncMenuInfo,
+    expandedKeys
   }
 })
 

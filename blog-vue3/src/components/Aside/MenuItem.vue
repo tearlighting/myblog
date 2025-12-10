@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ElMenuItem, ElSubMenu, ElMenuItemGroup, ElIcon } from "element-plus"
 import SvgIcon from "@/components/SvgIcon/index.vue"
-import type { AppRoute } from "router"
 import { useLanguage } from "@/hooks/useLanguage"
+import { ElIcon, ElMenuItem, ElMenuItemGroup, ElSubMenu } from "element-plus"
+import type { AppRoute } from "router"
 import { computed } from "vue"
 const { getMenuTitle } = useLanguage()
 const props = defineProps<{

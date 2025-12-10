@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useAppStore } from "@/store/app"
 import SvgIcon from "@/components/SvgIcon/index.vue"
 import { EIcons } from "@/constants/icons"
-import ControllerContainer from "./ControllerContainer.vue"
 import { useFullScreen } from "@/hooks/useFullScreel"
+import { useAppStore } from "@/store/app"
+import ControllerContainer from "./ControllerContainer.vue"
 
 interface IProps {
   svgClass?: string
@@ -16,7 +16,7 @@ const { fullScreen } = useFullScreen()
 
 <template>
   <ControllerContainer v-if="settings.showFullScreenSwitch">
-    <SvgIcon :name="EIcons.Fullscreen" class="text-text" :class="svgClass" @click="fullScreen"></SvgIcon>
+    <SvgIcon :name="EIcons.Fullscreen" :class="svgClass" @click="fullScreen"></SvgIcon>
   </ControllerContainer>
 </template>
 

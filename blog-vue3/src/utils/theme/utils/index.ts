@@ -40,7 +40,7 @@ export function generateTheme(p: Palette): ThemeVars {
     "--color-danger": p.danger,
 
     "--btn-bg": p.primary,
-    "--btn-text": "#fff",
+    "--btn-text": p.btnText,
     "--btn-hover": shadeColor(p.primary, -10),
 
     "--card-bg": p.surface,
@@ -50,6 +50,25 @@ export function generateTheme(p: Palette): ThemeVars {
     "--input-border": p.border,
     "--input-text": p.text,
     "--input-focus": p.primary,
+
+    // ====== 结构层级（自动派生） ======
+
+    // Level 0：页面底色
+    "--surface-0": p.bg,
+
+    // Level 1：基础面板（卡片、顶部 TagView、输入框等）
+    "--surface-1": p.surface,
+
+    // Level 2：更深的一层面板（sidebar、hover panel、modal）
+    "--surface-2": shadeColor(p.surface, -6),
+
+    // Divider
+    "--divider": p.border,
+
+    // Elevation（阴影）
+    "--elevation-1": "0 2px 6px rgba(0,0,0,0.05)",
+    "--elevation-2": "0 6px 16px rgba(0,0,0,0.08)",
+
   }
 }
 
@@ -62,4 +81,12 @@ function shadeColor(hex: string, percent: number): string {
   g = Math.min(255, Math.max(0, g))
   b = Math.min(255, Math.max(0, b))
   return "#" + (b | (g << 8) | (r << 16)).toString(16).padStart(6, "0")
+}
+function pickOnColor(hex: string) {
+  // 亮色背景 → 返回深色文字
+  // 深色背景 → 返回白字
+  const [r, g, b] = hexToRgb(hex);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+
+  return luminance > 160 ? "#1a1a1a" : "#ffffff";
 }

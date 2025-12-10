@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useAppStore } from "@/store/app"
 import SvgIcon from "@/components/SvgIcon/index.vue"
 import { EIcons } from "@/constants/icons"
-import ControllerContainer from "./ControllerContainer.vue"
 import { useLanguage } from "@/hooks/useLanguage"
 import { useThemeStore } from "@/store"
+import { useAppStore } from "@/store/app"
 import { storeToRefs } from "pinia"
+import ControllerContainer from "./ControllerContainer.vue"
 interface IProps {
   svgClass?: string
 }
@@ -20,7 +20,7 @@ const { setTheme } = useThemeStore()
 <template>
   <el-dropdown v-if="settings.showThemeSwitch" trigger="click" @command="setTheme">
     <ControllerContainer>
-      <SvgIcon :name="EIcons.Theme" :class="svgClass" class="text-text"></SvgIcon>
+      <SvgIcon :name="EIcons.Theme" :class="svgClass"></SvgIcon>
     </ControllerContainer>
     <template #dropdown>
       <el-dropdown-menu popper-class="tagViewController">

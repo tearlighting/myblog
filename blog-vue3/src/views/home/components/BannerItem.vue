@@ -1,89 +1,73 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { computed, ref } from "vue"
 
 const props = defineProps<{
-	src: string
-	title: string
-	description: string
+  src: string
+  title: string
+  description: string
 }>()
 
-const wrapperRef = ref<HTMLElement | null>(null)
-const tiltX = ref(0) // 左右
-const tiltY = ref(0) // 上下
-const isHovering = ref(false)
+// ======== 图片加载逻辑 ========
+const loaded = ref(false)
+function handleImgLoaded() {
+  loaded.value = true
+}
 
-// 最大倾斜角度
+// ======== 3D tilt 逻辑 ========
+const wrapperRef = ref<HTMLElement | null>(null)
+const tiltX = ref(0)
+const tiltY = ref(0)
+const isHovering = ref(false)
 const MAX_TILT = 10
 
-function handleMouseMove(e: MouseEvent) {
-	if (!wrapperRef.value) return
-	const rect = wrapperRef.value.getBoundingClientRect()
-	const x = e.clientX - rect.left
-	const y = e.clientY - rect.top
-
-	// 归一化到 [-1, 1]
-	const nx = (x / rect.width) * 2 - 1  // 左 -1 右 1
-	const ny = (y / rect.height) * 2 - 1 // 上 -1 下 1
-
-	// 注意：rotateX 是上下反的
-	tiltX.value = nx * MAX_TILT
-	tiltY.value = -ny * MAX_TILT
-	isHovering.value = true
+function handleMove(e: MouseEvent) {
+  if (!wrapperRef.value) return
+  const r = wrapperRef.value.getBoundingClientRect()
+  const nx = ((e.clientX - r.left) / r.width) * 2 - 1
+  const ny = ((e.clientY - r.top) / r.height) * 2 - 1
+  tiltX.value = nx * MAX_TILT
+  tiltY.value = -ny * MAX_TILT
+  isHovering.value = true
 }
 
-function handleMouseLeave() {
-	tiltX.value = 0
-	tiltY.value = 0
-	isHovering.value = false
+function leave() {
+  tiltX.value = 0
+  tiltY.value = 0
+  isHovering.value = false
 }
 
-const cardStyle = computed(() => {
-	const scale = isHovering.value ? 1.04 : 1.0
-	return {
-		transform: `
-      rotateX(${tiltY.value}deg)
-      rotateY(${tiltX.value}deg)
-      scale(${scale})
-    `,
-	}
-})
+const cardStyle = computed(() => ({
+  transform: `
+    rotateX(${tiltY.value}deg)
+    rotateY(${tiltX.value}deg)
+    scale(${isHovering.value ? 1.04 : 1})
+  `,
+}))
 </script>
 
 <template>
-	<!-- perspective 容器 -->
-	<div ref="wrapperRef" class="h-[60vh] w-full flex items-center justify-center cursor-pointer
-           [perspective:1200px]" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
-		<!-- 3D 卡片 -->
-		<div class="relative w-full max-w-5xl h-full rounded-2xl overflow-hidden
-             shadow-xl bg-slate-900/80
-             transition-transform duration-150 ease-out" :style="cardStyle">
-			<!-- 背景图 -->
-			<img :src="props.src" class="absolute inset-0 w-full h-full object-cover
-               opacity-80" />
+  <div ref="wrapperRef" class="relative w-full h-[60vh] flex items-center justify-center [perspective:1200px]" @mousemove="handleMove" @mouseleave="leave">
+    <!-- 3D 容器 -->
+    <div class="relative w-full max-w-5xl h-full rounded-2xl overflow-hidden shadow-xl transition-transform duration-150" :style="cardStyle">
+      <!-- Skeleton (blur-up) -->
+      <div class="absolute inset-0 bg-gray-700 animate-pulse" v-show="!loaded"></div>
 
-			<!-- 渐变遮罩，增加可读性 -->
-			<div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+      <!-- 图片：blur-up + crossfade -->
+      <img :src="src" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700" :class="loaded ? 'opacity-100' : 'opacity-0 blur-md'" @load="handleImgLoaded" />
 
-			<!-- 文案层 -->
-			<div class="relative z-10 h-full flex flex-col justify-center px-10 text-slate-50">
-				<h2 class="text-4xl md:text-5xl font-semibold tracking-tight
-                 drop-shadow-lg
-                 transition-all duration-500
-                 translate-y-4 opacity-0
-                 data-[show=true]:translate-y-0
-                 data-[show=true]:opacity-100" :data-show="true">
-					{{ props.title }}
-				</h2>
+      <!-- 渐变遮罩 -->
+      <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
 
-				<p class="mt-4 max-w-xl text-base md:text-lg text-slate-200/90
-                 drop-shadow
-                 transition-all duration-700 delay-150
-                 translate-y-4 opacity-0
-                 data-[show=true]:translate-y-0
-                 data-[show=true]:opacity-100" :data-show="true">
-					{{ props.description }}
-				</p>
-			</div>
-		</div>
-	</div>
+      <!-- 文案：必须等 loaded 才进场 -->
+      <div class="relative z-10 h-full flex flex-col justify-center px-10 text-white">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tight transition-all duration-700 opacity-0 translate-y-3" :class="loaded ? 'opacity-100 translate-y-0' : ''">
+          {{ title }}
+        </h2>
+
+        <p class="mt-4 max-w-xl text-lg transition-all duration-700 delay-150 opacity-0 translate-y-3" :class="loaded ? 'opacity-100 translate-y-0' : ''">
+          {{ description }}
+        </p>
+      </div>
+    </div>
+  </div>
 </template>

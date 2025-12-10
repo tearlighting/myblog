@@ -15,6 +15,11 @@
   },
   "theme": {
     "dark": "dark",
-    "light": "light"
+    "light": "light",
+    "aurora": "Aurora",
+    "sakura": "Sakura",
+    "cyber": "Cyber",
+    "sunset": "Sunset",
+    "mono": "Mono"
   }
 }

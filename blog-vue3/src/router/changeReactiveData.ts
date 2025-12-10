@@ -3,6 +3,11 @@ import { createFlowMiddleware, findMenuCurrent } from "@/utils"
 import type { IRouteGuarder } from "router"
 import type { NavigationGuardWithThis } from "vue-router"
 
+/**
+ * 
+ * 设置current route,current tag,
+ * @returns 
+ */
 export function createChangeRecactiveDataMiddleware<T extends IAllStoreProps>({ routeStore, tagViewStore }: T) {
   const changeCurrentRoute: IRouteGuarder = ([to], next) => {
     const menuName = findMenuCurrent(to, routeStore.displayRoutes)

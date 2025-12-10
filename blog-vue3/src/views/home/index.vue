@@ -1,27 +1,32 @@
 <script setup lang="ts">
-import { usePageHostStore } from '@/store';
-import { ElButton } from 'element-plus'
-import PageLoader from '@/components/PageLoader/index.vue';
-import { useHomeStore } from './store';
-import { initializer } from './initializer';
+import PageLoader from "@/components/PageLoader/index.vue"
+import { Button } from "@/components/UI"
+import { usePageHostStore } from "@/store"
+import { initializer } from "./initializer"
+import { useHomeStore } from "./store"
 
 defineOptions({
-	name: 'test'
+  name: "test",
 })
 const { scrollBottom, scrollTop } = usePageHostStore()
+const {
+  bannerStore: { banners },
+} = useHomeStore()
 </script>
 
 <template>
-	<PageLoader :use-store="useHomeStore" :initializer="initializer">
-		<div class="flex justify-center items-center fixed	 top-10 right-0">
-			<el-button @click="scrollTop">top</el-button>
-			<el-button @click="scrollBottom">bottom</el-button>
-		</div>
+  <PageLoader :use-store="useHomeStore" :initializer="initializer">
+    <div class="flex justify-center items-center fixed top-100 right-10">
+      <Button @click="scrollTop">top</Button>
+      <Button @click="scrollBottom">bottom</Button>
+    </div>
 
-		<div role="home-container" class="h-[200vh] bg-amber-200">123
-		</div>
-	</PageLoader>
-
+    <!-- <div role="home-container" class="h-[200vh] bg-amber-200">
+      <template v-for="banner in banners" :key="banner.id">
+        <BannerItem :banner="banner" :src="banner.bigImg" :title="banner.title" :description="banner.description" />
+      </template>
+    </div> -->
+  </PageLoader>
 </template>
 
 <style lang="less" scoped></style>

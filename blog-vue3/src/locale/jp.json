@@ -15,6 +15,11 @@
   },
   "theme": {
     "dark": "暗黑",
-    "light": "明亮"
+    "light": "明亮",
+    "aurora": "オーロラ",
+    "sakura": "さくら",
+    "cyber": "サイバー",
+    "sunset": "サンセット",
+    "mono": "モノトーン"
   }
 }

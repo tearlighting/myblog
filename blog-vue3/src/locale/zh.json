@@ -15,6 +15,11 @@
   },
   "theme": {
     "dark": "暗黑",
-    "light": "明亮"
+    "light": "明亮",
+    "aurora": "极光",
+    "sakura": "樱花",
+    "cyber": "赛博",
+    "sunset": "落日",
+    "mono": "单色"
   }
 }

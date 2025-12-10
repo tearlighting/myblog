@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Aside: typeof import('./src/components/Aside/index.vue')['default']
+    Button: typeof import('./src/components/UI/Button/Button.vue')['default']
     ControllerContainer: typeof import('./src/components/NavBar/ControllerContainer.vue')['default']
     FullScreenSwitch: typeof import('./src/components/NavBar/FullScreenSwitch.vue')['default']
     LanguageChange: typeof import('./src/components/NavBar/LanguageChange.vue')['default']
@@ -19,6 +20,8 @@ declare module 'vue' {
     MenuSwitch: typeof import('./src/components/NavBar/MenuSwitch.vue')['default']
     MenuTitle: typeof import('./src/components/NavBar/MenuTitle.vue')['default']
     NavBar: typeof import('./src/components/NavBar/index.vue')['default']
+    NavieMenu: typeof import('./src/components/Aside/NavieMenu.vue')['default']
+    NaviMenu: typeof import('./src/components/Aside/NaviMenu.vue')['default']
     PageLoader: typeof import('./src/components/PageLoader/index.vue')['default']
     PanelContainer: typeof import('./src/components/PanelContainer/index.vue')['default']
     Permission: typeof import('./src/components/Permission/index.vue')['default']

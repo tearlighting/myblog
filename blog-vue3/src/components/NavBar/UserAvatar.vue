@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAppStore } from "@/store/app"
 import SvgIcon from "@/components/SvgIcon/index.vue"
 import { EIcons } from "@/constants/icons"
+import { useAppStore } from "@/store/app"
 import ControllerContainer from "./ControllerContainer.vue"
 
 const appStore = useAppStore()
@@ -18,7 +18,7 @@ defineProps<IProps>()
 
 <template>
   <ControllerContainer>
-    <SvgIcon v-if="showThemeSwitch" :name="EIcons.User" :class="svgClass" class="text-text"></SvgIcon>
+    <SvgIcon v-if="showThemeSwitch" :name="EIcons.User" :class="svgClass"></SvgIcon>
   </ControllerContainer>
 </template>
 

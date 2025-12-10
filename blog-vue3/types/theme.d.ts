@@ -22,17 +22,18 @@ export type Palette = {
   surface: string // 浮层 / 卡片背景
   border: string // 边框
   muted: string // 次要文字
+  btnText: string
 }
 
 export type ThemeLabel =
   | {
-      labelKey?: never
-      label: string
-    }
+    labelKey?: never
+    label: string
+  }
   | {
-      labelKey: NestedKeys<typeof en>
-      label?: never
-    }
+    labelKey: NestedKeys<typeof en>
+    label?: never
+  }
 
 export type ThemeItem<TKey extends string> = {
   value: TKey
