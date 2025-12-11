@@ -2,6 +2,7 @@
 import PageLoader from "@/components/PageLoader/index.vue"
 import { Button } from "@/components/UI"
 import { usePageHostStore } from "@/store"
+import LumiSection from "./components/LumiSection.vue"
 import { initializer } from "./initializer"
 import { useHomeStore } from "./store"
 
@@ -21,11 +22,12 @@ const {
       <Button @click="scrollBottom">bottom</Button>
     </div>
 
-    <!-- <div role="home-container" class="h-[200vh] bg-amber-200">
-      <template v-for="banner in banners" :key="banner.id">
+    <div role="home-container" class="h-full">
+      <!-- <template v-for="banner in banners" :key="banner.id">
         <BannerItem :banner="banner" :src="banner.bigImg" :title="banner.title" :description="banner.description" />
-      </template>
-    </div> -->
+      </template> -->
+      <LumiSection :items="banners" />
+    </div>
   </PageLoader>
 </template>
 

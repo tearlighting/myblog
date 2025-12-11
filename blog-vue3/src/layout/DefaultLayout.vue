@@ -29,7 +29,7 @@ watchEffect(() => {
     <template v-slot:centerLine2>
       <TagViews></TagViews>
     </template>
-    <div role="page-host " class="size-full overflow-auto relative p-6 min-h-0" ref="hostRef">
+    <div role="page-host" class="size-full overflow-auto relative p-6 min-h-0" ref="hostRef">
       <RouterView #="{ Component }">
         <KeepAlive :include="allCachedTags">
           <transition name="page" mode="out-in">
@@ -42,51 +42,7 @@ watchEffect(() => {
 </template>
 
 <style lang="less" scoped>
-:deep(.layout) {
-  // [data-section="layout-root"] {
-  //   background: linear-gradient(180deg, var(--surface-0) 0%, color-mix(in srgb, var(--surface-0) 90%, var(--surface-1)) 100%);
-  // }
-
-  // /* 左侧栏 */
-  // [data-section="left"] {
-  //   border-right: 1px solid var(--divider);
-  //   box-shadow: var(--elevation-2);
-  //   background: color-mix(in srgb, var(--surface-0) 90%, var(--surface-2));
-  //   backdrop-filter: blur(4px);
-  // }
-
-  // /* 右侧栏 */
-  // [data-section="right"] {
-  //   background: var(--surface-2);
-  //   border-left: 1px solid var(--divider);
-  //   box-shadow: var(--elevation-2);
-  // }
-
-  // /* 顶部导航行（Center Line 1） */
-  // [data-section="center-line1"] {
-  //   background: color-mix(in srgb, var(--surface-1) 55%, transparent);
-  //   backdrop-filter: blur(14px);
-  //   border-bottom: 1px solid var(--divider);
-  //   box-shadow: var(--elevation-1);
-  //   z-index: 10;
-  // }
-
-  // /* TagView 区域（Center Line 2） */
-  // [data-section="center-line2"] {
-  //   background: var(--surface-1);
-  //   border-bottom: 1px solid var(--divider);
-  //   box-shadow: var(--elevation-1);
-  //   z-index: 5;
-  // }
-
-  // /* 第三行：按需使用，默认透明 */
-  // [data-section="center-line3"] {
-  //   background: transparent;
-  // }
-
-  /* 主内容区 */
-  [data-section="center-main"] {
-    background: color-mix(in srgb, var(--surface-0) 95%, var(--surface-1));
-  }
+[role="page-host"] {
+  background-color: color-mix(in srgb, var(--surface-0) 95%, var(--surface-1));
 }
 </style>

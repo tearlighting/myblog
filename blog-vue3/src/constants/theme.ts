@@ -1,4 +1,4 @@
-import type { Palette } from "theme"
+import type { Palette } from "theme";
 
 // export const lightPalette: Palette = {
 //   primary: "#3b82f6",
@@ -52,18 +52,32 @@ export const auroraPalette: Palette = {
  * 偏生活 · 柔和 · 文青气
  */
 export const sakuraPalette: Palette = {
-  primary: "#f472b6",      // 樱花粉
-  secondary: "#fb7185",    // 柔红
+  // primary: "#f472b6",      // 樱花粉
+  // secondary: "#fb7185",    // 柔红
+  // accent: "#f9a8d4",
+  // success: "#4ade80",
+  // warning: "#facc15",
+  // danger: "#f87171",
+
+  // bg: "#fff1f2",
+  text: "#4a4a4a",
+  // surface: "#ffe4e6",
+  // border: "#fbcfe8",
+  // muted: "#a1a1aa",
+  // btnText: "#1a1a1a",
+  primary: "#f472b6",
+  secondary: "#fb7185",
   accent: "#f9a8d4",
   success: "#4ade80",
   warning: "#facc15",
   danger: "#f87171",
 
-  bg: "#fff1f2",
-  text: "#4a4a4a",
-  surface: "#ffe4e6",
-  border: "#fbcfe8",
+  // ======== 关键修改点 ========
+  bg: "#fafafa",          // ⚠️ 页面背景改为中性浅灰
+  surface: "#ffffff",     // ⚠️ 内容面板改为白色，保持层次
+  border: "#f5d0dc",      // 用粉色作边框 OK
   muted: "#a1a1aa",
+
   btnText: "#1a1a1a",
 
 }
@@ -92,22 +106,26 @@ export const cyberPalette: Palette = {
  * Sunset Warm（夕阳暖光 · 生活 + 日记感）
  */
 export const sunsetPalette: Palette = {
-  primary: "#fb923c",    // warm orange
-  secondary: "#f97316",
-  accent: "#fdba74",
+  primary: "#ffa45c",      // 柔光橙，比原版更亮
+  secondary: "#ffb777",
+  accent: "#ffd8b0",
 
   success: "#4ade80",
   warning: "#facc15",
-  danger: "#f87171",
+  danger: "#ff8787",
 
-  bg: "#fff7ed",
-  text: "#3f3f46",
-  surface: "#ffedd5",
-  border: "#fed7aa",
-  muted: "#a8a29e",
+  // === 亮度对齐 Sakura ===
+  bg: "#fff6f1",           // 明度 ≈ Sakura 的 bg
+  surface: "#ffece1",      // 比 bg 深约 6%，对齐 Sakura 深度
+  border: "#ffd9c8",       // 再深一点点，柔和不抢眼
+
+  text: "#463f3a",
+  muted: "#b8b0a8",
   btnText: "#1a1a1a",
+};
 
-}
+
+
 /**
  * Minimal Grey（极简 Monochrome）
  */

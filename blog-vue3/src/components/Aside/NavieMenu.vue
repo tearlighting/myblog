@@ -55,8 +55,12 @@ function onExpanded(keys: string[]) {
 </script>
 
 <template>
-  <div class="h-full transition-all duration-300" role="side-menu" :class="clsx(deviceType === EDeviceType.DESKTOP ? (isCollapse ? 'w-[56px]' : 'w-60') : '', isHidden && 'side-menu--hidden')">
-    <template v-if="deviceType === EDeviceType.DESKTOP">
+  <div
+    class="h-full transition-all duration-300"
+    role="side-menu"
+    :class="clsx(deviceType === EDeviceType.DESKTOP ? (isCollapse ? 'w-[56px]' : 'w-60') : '', isHidden && 'side-menu--hidden', isCollapse && 'side-menu--collapsed')"
+  >
+    <div v-if="deviceType === EDeviceType.DESKTOP" class="flex flex-col">
       <AppLogo />
       <!-- 桌面菜单 -->
       <n-menu
@@ -68,7 +72,7 @@ function onExpanded(keys: string[]) {
         @update:expanded-keys="onExpanded"
         class="h-full bg-bg w-full border-r-border"
       />
-    </template>
+    </div>
 
     <!-- 移动端 Drawer 菜单 -->
     <n-drawer v-else :show="!isHidden" width="240" placement="left" :on-update:show="toggleMenu">
@@ -107,6 +111,11 @@ function onExpanded(keys: string[]) {
   &::after {
     right: 0;
     background: linear-gradient(to left, rgba(0, 0, 0, 0.02), transparent);
+  }
+  &.side-menu--collapsed {
+    :deep(.n-menu-item-content__icon) {
+      transform: translateX(3.5px);
+    }
   }
 }
 /**路由左侧的竖线 */
