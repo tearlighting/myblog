@@ -1,1 +1,155 @@
 @import "./sub-menu.less";
+@import "@/core/index.less";
+
+.n-dropdown-menu {
+  .glass-base(var(--surface-0),80%,16);
+  .n-dropdown-option {
+    .n-dropdown-option-body {
+      color: var(--color-text);
+      &.n-dropdown-option-body--active:not(.n-dropdown-option-body--disabled) {
+        color: var(--color-text);
+      }
+      //同步图标颜色
+      .n-dropdown-option-body__prefix,
+      .n-dropdown-option-body__suffix {
+        color: inherit !important;
+      }
+      //普通menu
+      &.n-dropdown-option-body--pending {
+        color: var(--color-primary) !important;
+        &:not(.n-dropdown-option-body--disabled) {
+          &::before {
+            border-radius: 6px;
+            box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+            background-color: transparent !important;
+          }
+
+          &:hover {
+            &::before {
+              inset: 2px 8px; /* 关键：缩小区域 */
+              background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+              box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 50%, transparent);
+            }
+          }
+        }
+      }
+    }
+    //active menu
+    .n-dropdown-option-body--child-active,
+    .n-dropdown-option-body--active {
+      &:not(.n-dropdown-option-body--disabled) {
+        color: var(--color-text) !important;
+      }
+
+      &::before {
+        .glass-base(var(--color-primary), 16%);
+        background: color-mix(in srgb, var(--color-primary) 16%, transparent) !important;
+        border-radius: 6px;
+        box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+      }
+
+      &:hover {
+        color: var(--color-primary) !important;
+        &::before {
+          inset: 2px 8px; /* 关键：缩小区域 */
+          background: color-mix(in srgb, var(--color-primary) 25%, transparent) !important;
+          box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 50%, transparent);
+        }
+      }
+    }
+  }
+}
+
+.n-menu-tooltip {
+  background-color: color-mix(in srgb, var(--surface-0) 80%, transparent) !important;
+  .n-popover-arrow {
+    background-color: color-mix(in srgb, var(--surface-0) 80%, transparent) !important;
+  }
+  .n-popover__content {
+    color: var(--color-text) !important;
+  }
+}
+
+.n-drawer {
+  .glass-base(var(--surface-0),80%,16);
+  .active-bar() {
+    &::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      border-radius: 2px;
+      background-color: var(--color-primary);
+      left: -1px; /* 放到 item 外一点点，超级好看 */
+    }
+  }
+  .n-menu {
+    background-color: transparent !important;
+    .n-menu-item {
+      background-color: transparent !important;
+      overflow: visible; /* 必需：允许 ::after 放到外侧 */
+      .n-menu-item-content {
+        color: var(--color-text) !important;
+        &::before {
+          border-radius: 8px; // 跟 hover / active 用同一个圆角，避免跳动
+          background-color: transparent;
+          box-shadow: none;
+          transition: background-color 150ms ease, box-shadow 180ms ease, transform 120ms ease;
+        }
+
+        &:hover {
+          color: color-mix(in srgb, var(--color-primary) 50%, var(--color-text)) !important;
+          &::before {
+            /* hover：淡淡蓝光玻璃 */
+            inset: 2px 8px;
+            border-radius: 6px;
+            // background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+            .glass-base(var(--color-primary), 10%);
+            transition: all 0.3s ease;
+          }
+        }
+        /* active：主色玻璃块 */
+        &.n-menu-item-content--selected {
+          &::before {
+            .glass-base(var(--color-primary), 16%);
+            border-radius: 6px;
+            box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+          }
+          .active-bar();
+          &:hover {
+            color: var(--color-primary) !important;
+            &::before {
+              inset: 2px 8px; /* 关键：缩小区域 */
+              .glass-base(var(--color-primary), 25%);
+              box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 50%, transparent);
+            }
+          }
+        }
+        .n-menu-item-content-header,
+        .n-menu-item-content__icon,
+        .n-menu-item-content__arrow {
+          color: inherit !important;
+        }
+        &.n-menu-item-content--child-active.n-menu-item-content--collapsed {
+          &::before {
+            .glass-base(var(--color-primary), 16%);
+            border-radius: 6px;
+            box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+          }
+          .active-bar();
+        }
+
+        .n-menu-item-content-header__extra:has(.external-link-item) {
+          display: flex;
+          align-items: center;
+          position: absolute;
+          right: 0;
+          transform: translateX(-150%) translateY(-150%);
+          color: inherit;
+        }
+      }
+    }
+  }
+}

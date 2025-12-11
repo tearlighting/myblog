@@ -1,14 +1,13 @@
-import { NavigationGuardWithThis, RouteRecordRaw } from "vue-router"
-import { EPemission } from "@/store/pemission"
 import type { EIcons } from "@/constants/icons"
 import type { en } from "@/locale"
+import { EPemission } from "@/store/pemission"
 import { NestedKeys } from "language"
+import { NavigationGuardWithThis, RouteRecordRaw } from "vue-router"
 
 type BaseMeta = {
   keepAlive?: boolean
   roles: EPemission[]
   icon?: EIcons
-  exact?: boolean
   externalLink?: string
 }
 

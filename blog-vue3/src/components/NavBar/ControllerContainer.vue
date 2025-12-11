@@ -24,18 +24,21 @@ const sizeClass = computed(() => sizes[props.size ?? "md"])
   </button>
 </template>
 <style lang="less" scoped>
+@import "@/core/index.less";
+
 .controller-container {
   padding: 0.35rem 0.55rem;
 
   /* 基础态：半透明 + 轻边框 */
-  background: color-mix(in srgb, var(--surface-0) 70%, transparent);
+  .glass-base(var(--surface-0),70%,unset);
+
   border: 1px solid color-mix(in srgb, var(--divider) 50%, transparent);
   color: var(--color-text);
   opacity: 0.9;
 
   /* Hover：稍微亮一点 + 光感 */
   &:hover {
-    background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+    .glass-base(var(--surface-2),55%,unset);
     border-color: color-mix(in srgb, var(--color-primary) 40%, var(--divider) 60%);
     opacity: 1;
   }

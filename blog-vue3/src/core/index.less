@@ -1,0 +1,5 @@
+//本系统的玻璃样式mixin
+.glass-base(@color, @alpha: 15%,@blur: 10px) {
+  backdrop-filter: blur(@blur);
+  background: color-mix(in srgb, @color @alpha, transparent);
+}

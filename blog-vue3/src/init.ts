@@ -1,13 +1,13 @@
 import { watch } from "vue"
-import { useRouteStoreHook, useTagViewStoreHook, themeManager, useUserStoreHook, useAppStoreHook, useMenuStoreHook, menuManager } from "./store"
-import { setupRouteGuard } from "./router/behavior"
 import { EDeviceType } from "./constants"
+import { setupRouteGuard } from "./router/behavior"
+import { menuManager, useAppStoreHook, useMenuStoreHook, useRouteStoreHook, useTagViewStoreHook, useThemeStoreHook, useUserStoreHook } from "./store"
 
 export interface IAllStoreProps {
   userStore: ReturnType<typeof useUserStoreHook>
   routeStore: ReturnType<typeof useRouteStoreHook>
   tagViewStore: ReturnType<typeof useTagViewStoreHook>
-  themeStore: typeof themeManager
+  themeStore: ReturnType<typeof useThemeStoreHook>
   appStore: ReturnType<typeof useAppStoreHook>
   menuStore: ReturnType<typeof useMenuStoreHook>
 }
@@ -16,7 +16,7 @@ export interface IAllStoreProps {
  * @param param0
  */
 function setupTheme<T extends IAllStoreProps>({ themeStore }: T) {
-  themeStore.setTheme(themeStore.current)
+  themeStore.setTheme(themeStore.currentTheme)
 }
 /**
  * 监听用户角色变化，设置显示的路由
@@ -49,12 +49,12 @@ function changeMenuType<T extends IAllStoreProps>({ appStore, menuStore }: T) {
   )
 }
 
-function initApp() {
+export function initApp() {
   const stores: IAllStoreProps = {
     userStore: useUserStoreHook(),
     routeStore: useRouteStoreHook(),
     tagViewStore: useTagViewStoreHook(),
-    themeStore: themeManager,
+    themeStore: useThemeStoreHook(),
     appStore: useAppStoreHook(),
     menuStore: useMenuStoreHook(),
   }
@@ -63,4 +63,4 @@ function initApp() {
   setupRouteGuard(stores)
   changeMenuType(stores)
 }
-initApp()
+

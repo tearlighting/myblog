@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import SvgIcon from "@/components/SvgIcon/index.vue"
-import { EDeviceType } from "@/constants"
+import { EDeviceType, EIcons } from "@/constants"
 import { useLanguage } from "@/hooks/useLanguage"
 import { useMenu } from "@/hooks/useMenu"
 import { useAppStore, useMenuStore, useRouteStore } from "@/store"
+import clsx from "clsx"
 import { NDrawer, NIcon, NMenu, type MenuOption } from "naive-ui"
 import { storeToRefs } from "pinia"
 import type { AppRoute } from "router"
 import { computed, h } from "vue"
 import { useRouter } from "vue-router"
+import AppLogo from "./AppLogo.vue"
 
 const { displayRoutes, currentRoute } = storeToRefs(useRouteStore())
 const { isCollapse, isHidden, expandedKeys } = storeToRefs(useMenuStore())
@@ -29,6 +31,12 @@ function routeToOption(route: AppRoute): MenuOption {
           })
       : undefined,
     children,
+    extra: route.meta.externalLink
+      ? () =>
+          h(NIcon, null, {
+            default: () => h(SvgIcon, { name: EIcons.ExternalLink, class: "external-link-item" }),
+          })
+      : undefined,
   }
 }
 
@@ -47,31 +55,39 @@ function onExpanded(keys: string[]) {
 </script>
 
 <template>
-  <div class="h-full transition-all duration-300" role="side-menu" :class="deviceType === EDeviceType.DESKTOP ? (isCollapse ? 'w-[56px]' : 'w-60') : ''">
-    <!-- 桌面菜单 -->
-    <n-menu
-      v-if="deviceType === EDeviceType.DESKTOP"
-      :options="menuOptions"
-      :value="activeKey"
-      :expanded-keys="expandedKeys"
-      :collapsed="isCollapse"
-      @update:value="onSelect"
-      @update:expanded-keys="onExpanded"
-      class="h-full bg-bg w-full border-r-border"
-    />
+  <div class="h-full transition-all duration-300" role="side-menu" :class="clsx(deviceType === EDeviceType.DESKTOP ? (isCollapse ? 'w-[56px]' : 'w-60') : '', isHidden && 'side-menu--hidden')">
+    <template v-if="deviceType === EDeviceType.DESKTOP">
+      <AppLogo />
+      <!-- 桌面菜单 -->
+      <n-menu
+        :options="menuOptions"
+        :value="activeKey"
+        :expanded-keys="expandedKeys"
+        :collapsed="isCollapse"
+        @update:value="onSelect"
+        @update:expanded-keys="onExpanded"
+        class="h-full bg-bg w-full border-r-border"
+      />
+    </template>
 
     <!-- 移动端 Drawer 菜单 -->
     <n-drawer v-else :show="!isHidden" width="240" placement="left" :on-update:show="toggleMenu">
-      <n-menu :options="menuOptions" :value="activeKey" :expanded-keys="expandedKeys" @update:value="onSelect" @update:expanded-keys="onExpanded" class="h-full bg-bg w-full" />
+      <div class="flex flex-col">
+        <AppLogo />
+        <n-menu :options="menuOptions" :value="activeKey" :expanded-keys="expandedKeys" @update:value="onSelect" @update:expanded-keys="onExpanded" class="flex-1 bg-bg w-full" />
+      </div>
     </n-drawer>
   </div>
 </template>
 <style scoped lang="less">
+@import "@/core/index.less";
 [role="side-menu"] {
-  backdrop-filter: blur(16px);
-  background: color-mix(in srgb, var(--surface-0) 80%, transparent);
+  .glass-base(var(--surface-0),80%,16);
   border-right: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   box-shadow: 4px 0 24px -8px rgba(15, 23, 42, 0.25);
+  &.side-menu--hidden {
+    border-right: 0px;
+  }
   &::before,
   &::after {
     content: "";
@@ -93,6 +109,20 @@ function onExpanded(keys: string[]) {
     background: linear-gradient(to left, rgba(0, 0, 0, 0.02), transparent);
   }
 }
+/**路由左侧的竖线 */
+.active-bar() {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 2px;
+    background-color: var(--color-primary);
+    left: -1px; /* 放到 item 外一点点，超级好看 */
+  }
+}
 
 /* Naive 菜单透明化，让背景透出来 */
 :deep(.n-menu) {
@@ -111,41 +141,28 @@ function onExpanded(keys: string[]) {
 
       &:hover {
         color: color-mix(in srgb, var(--color-primary) 50%, var(--color-text)) !important;
-        // background: color-mix(in srgb, var(--color-primary) 8%, transparent) !important;
-        // border-radius: 8px;
         &::before {
           /* hover：淡淡蓝光玻璃 */
-
           inset: 2px 8px;
           border-radius: 6px;
-          background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+          // background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+          .glass-base(var(--color-primary), 10%);
           transition: all 0.3s ease;
         }
       }
       /* active：主色玻璃块 */
       &.n-menu-item-content--selected {
         &::before {
-          background-color: color-mix(in srgb, var(--color-primary) 16%, transparent) !important;
+          .glass-base(var(--color-primary), 16%);
           border-radius: 6px;
           box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
         }
-        &::after {
-          content: "";
-          position: absolute;
-          left: 2px;
-          top: 6px;
-          bottom: 6px;
-          width: 3px;
-          border-radius: 2px;
-          background-color: var(--color-primary);
-
-          left: -1px; /* 放到 item 外一点点，超级好看 */
-        }
+        .active-bar();
         &:hover {
           color: var(--color-primary) !important;
           &::before {
             inset: 2px 8px; /* 关键：缩小区域 */
-            background-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+            .glass-base(var(--color-primary), 25%);
             box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 50%, transparent);
           }
         }
@@ -155,19 +172,22 @@ function onExpanded(keys: string[]) {
       .n-menu-item-content__arrow {
         color: inherit !important;
       }
-      &.n-menu-item-content--child-active {
-        // color: color-mix(in srgb, var(--color-primary) 90%, transparent) !important;
+      &.n-menu-item-content--child-active.n-menu-item-content--collapsed {
         &::before {
-          background-color: transparent !important;
-          box-shadow: none !important;
+          .glass-base(var(--color-primary), 16%);
+          border-radius: 6px;
+          box-shadow: inset 0 0 8px color-mix(in srgb, var(--color-primary) 40%, transparent);
         }
-        &:last-of-type {
-          &::before {
-            background: color-mix(in srgb, var(--color-primary) 5%, transparent) !important;
-            border-radius: 8px;
-          }
-        }
-        // color: var(--color-primary) !important;
+        .active-bar();
+      }
+
+      .n-menu-item-content-header__extra:has(.external-link-item) {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: 0;
+        transform: translateX(-150%) translateY(-150%);
+        color: inherit;
       }
     }
   }

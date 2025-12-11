@@ -1,4 +1,5 @@
-import { languageManager, useLanguageStoreHooks } from "@/store"
+import { languageManager } from "@/core"
+import { useLanguageStoreHooks } from "@/store"
 import { storeToRefs } from "pinia"
 import type { StrictMeta } from "router"
 

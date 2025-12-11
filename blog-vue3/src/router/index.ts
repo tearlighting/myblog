@@ -119,7 +119,6 @@ export const routes = createRoutes([
     ],
   },
   {
-
     path: "/test",
     component: DefaultLayout,
     meta: {
@@ -137,6 +136,15 @@ export const routes = createRoutes([
         },
       }
     ]
+  }, {
+    path: '/github',
+    name: "github",
+    component: DefaultLayout,
+    meta: {
+      roles: [EPemission.visitor],
+      title: "github",
+      externalLink: "https://github.com/tearlighting/"
+    }
   }
 ])
 

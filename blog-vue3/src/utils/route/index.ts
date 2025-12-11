@@ -1,7 +1,7 @@
+import type { AppRoute } from "router"
 import type { RouteLocationNormalizedGeneric } from "vue-router"
 import { bfs } from "../tree"
 export * from "./guard"
-import type { AppRoute } from "router"
 
 interface INamedRoute {
   name: string

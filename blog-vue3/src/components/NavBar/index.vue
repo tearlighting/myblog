@@ -21,12 +21,11 @@ import UserAvatar from "./UserAvatar.vue"
 </template>
 
 <style lang="less" scoped>
+@import "@/core/index.less";
+
 [role="nav-bar"] {
   /* 背景：用 surface-2 做基底，稍微透明一点 */
-  background: color-mix(in srgb, var(--surface-2, var(--color-surface)) 70%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-
+  .glass-base(var(--surface-2),70%,14);
   /* 下边线：用 divider 柔一下，而不是直接 border-b-border 那种生硬的粉/灰线 */
   border-bottom-color: color-mix(in srgb, var(--divider, var(--color-border)) 75%, transparent);
 

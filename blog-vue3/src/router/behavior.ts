@@ -1,6 +1,6 @@
-import { turn2PageGuard, isLoginGuard, createAuthGuard, createFlowMiddleware } from "@/utils"
+import { createAuthGuard, createExternalGuard, createFlowMiddleware, isLoginGuard, turn2PageGuard } from "@/utils"
 import type { NavigationGuardWithThis } from "vue-router"
-import router from "."
+import router, { routes } from "."
 import { createChangeRecactiveDataMiddleware } from "./changeReactiveData"
 
 import type { IAllStoreProps } from "@/init"
@@ -14,6 +14,7 @@ export function setupRouteGuard<T extends IAllStoreProps>(stores: T) {
   const routerBeforeEachMiddleware = createFlowMiddleware<Parameters<NavigationGuardWithThis<any>>>()
     .use(isLoginGuard)
     .use(createAuthGuard(stores.userStore, { path: "/" }))
+    .use(createExternalGuard(routes, router, { path: "/" }))
     .use((ctx, next) => {
       changeRecactiveDataMiddleware.run(ctx)
       next()

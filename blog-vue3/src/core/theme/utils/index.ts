@@ -82,11 +82,4 @@ function shadeColor(hex: string, percent: number): string {
   b = Math.min(255, Math.max(0, b))
   return "#" + (b | (g << 8) | (r << 16)).toString(16).padStart(6, "0")
 }
-function pickOnColor(hex: string) {
-  // 亮色背景 → 返回深色文字
-  // 深色背景 → 返回白字
-  const [r, g, b] = hexToRgb(hex);
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
 
-  return luminance > 160 ? "#1a1a1a" : "#ffffff";
-}

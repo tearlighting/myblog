@@ -1,11 +1,11 @@
-import { generateTheme } from "@/utils"
 import type { IThemeManager, ThemeItem, ThemeLabel, ThemeVars } from "theme"
+import { generateTheme } from "../../utils"
 
 export class ThemeManager<ThemeName extends string = never> implements IThemeManager<ThemeName> {
   private _themes: Record<ThemeName, ThemeVars> = {} as any
   private _current: ThemeName | null = null
   private _labels: Record<ThemeName, ThemeLabel> = {} as any
-  constructor(private _rootEl: HTMLElement = document.documentElement) {}
+  constructor(private _rootEl: HTMLElement = document.documentElement) { }
 
   getTheme(): ThemeVars {
     return this._themes[this._current!]
