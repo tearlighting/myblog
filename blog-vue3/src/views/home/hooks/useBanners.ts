@@ -15,8 +15,6 @@ interface IUseBanners extends IDisposableStore<IUseBannerInitalProps> {
   dynammicRenderControl: Record<number, string>
 }
 
-
-
 export const useBanners = (): IUseBanners => {
   const banners = reactive<IBannerItem[]>([])
   const currentIndex = reactive({

@@ -1,18 +1,19 @@
-import { createHookStore, withInitialized, withMergeDispose } from "@/utils"
+import { createHookStore, withMergeDispose } from "@/utils"
 import { useBanners } from "../hooks"
-import { reactive } from "vue"
+import { useLumi } from "../hooks/useLumi"
+
+
 
 export const useHomeStore = createHookStore(() => {
-  const { init, dispose, initialized, bannerStore } = withInitialized(
+  const { ...rest } =
     withMergeDispose({
       bannerStore: useBanners(),
+      lumiStore: useLumi(),
     })
-  )
 
   return {
-    bannerStore,
-    init,
-    dispose,
-    initialized,
+    ...rest
   }
 })
+
+
