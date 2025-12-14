@@ -1,66 +1,95 @@
 import Lenis from "lenis"
-import { ref, type Ref } from "vue"
-import { LumiSceneController } from "../core"
+import { ref, shallowRef, type Ref, type ShallowRef } from "vue"
+import { LumiInputController } from "../core"
 import { LumiCameraGlue } from "../core/LumiModules/LumiCamera/LumiCameraGlue"
+import { LumiDomRenderer, type ILumiRenderer } from "../core/LumiModules/LumiCamera/LumiDomRenderer"
+import { LumiThreeRenderer } from "../core/LumiModules/LumiCamera/LumiThreeRender"
+import { LumiText } from "../core/LumiModules/LumiText/LumiText"
+import { LumiTextGlue } from "../core/LumiModules/LumiText/LumiTextGlue"
+import { LumiTextGroup } from "../core/LumiModules/LumiText/LumiTextGroup"
 
 interface IInitialLumiEffectProps {
+  cardDoms: {
     card: HTMLElement
     img: HTMLImageElement
     media: HTMLElement
+    glass: HTMLElement
+    blur: HTMLElement
+  }
+  textDoms: {
+    text: HTMLElement
+    title: HTMLElement
+    description: HTMLElement
+  }
 }
 
 interface IUseLumi extends IDisposableStore<{}> {
-    scene: Ref<LumiSceneController | null>
-    camera: Ref<LumiCameraGlue | null>
-    initailLumiEffect: (target: IInitialLumiEffectProps) => void
+  scene: ShallowRef<LumiInputController | null>
+  camera: ShallowRef<LumiCameraGlue | null>
+  initailLumiEffect: (target: IInitialLumiEffectProps) => void
+  lumiRender: ILumiRenderer
+  lumiText: ShallowRef<LumiTextGroup>
 }
 
 export const useLumi = (): IUseLumi => {
-    let lenis: Lenis | null = null
-    const scene = ref<LumiSceneController | null>(null) as Ref<LumiSceneController | null>
-    const camera = ref<LumiCameraGlue | null>(null) as Ref<LumiCameraGlue | null>
-    let initialized = false
-    const initailLumiEffect = ({ card, img, media }: IInitialLumiEffectProps) => {
-        if (initialized) return
-        initialized = true
-        lenis = new Lenis({
-            smoothWheel: true,
-            lerp: 0.12,
-        })
+  let lenis: Lenis | null = null
+  const scene = shallowRef<LumiInputController | null>(null) as ShallowRef<LumiInputController | null>
+  const camera = shallowRef<LumiCameraGlue | null>(null) as ShallowRef<LumiCameraGlue | null>
+  //   const lumiRender = new LumiDomRenderer()
+  const lumiThreeRender = new LumiThreeRenderer()
+  const lumiText = shallowRef<LumiTextGroup>() as ShallowRef<LumiTextGroup>
+  let initialized = false
+  const initailLumiEffect = ({ cardDoms: { card, img, media, glass, blur }, textDoms: { text, title, description } }: IInitialLumiEffectProps) => {
+    if (initialized) return
+    initialized = true
 
-        scene.value = new LumiSceneController(lenis)
+    lenis = createLenis()
+    // lumiRender.bind({ card, img, media })
+    lumiThreeRender.bind({ card, img, media, glass, blur })
+    scene.value = new LumiInputController(lenis, card)
+    camera.value = new LumiCameraGlue(lumiThreeRender, scene.value.subPubIns)
 
+    lumiText.value = new LumiTextGroup({
+      container: text,
+      items: [
+        {
+          role: "title",
+          el: title,
+        },
+        {
+          role: "description",
+          el: description,
+        },
+      ],
+    })
+    scene.value.registerModule(camera.value)
+  }
 
-        camera.value = new LumiCameraGlue(
-            card,
-            img,
-            scene.value.subPubIns
-        )
+  const init = () => {}
+  const dispose = () => {
+    lenis?.destroy()
+    scene.value?.destroy()
+  }
+  return {
+    init,
+    dispose,
+    initailLumiEffect,
+    scene,
+    camera,
+    lumiRender: lumiThreeRender,
+    lumiText,
+  }
+}
 
-        camera.value.changeTarget(card, img)
-
-        scene.value.registerModule(camera.value)
-
-        function raf(time: number) {
-            lenis!.raf(time)
-            requestAnimationFrame(raf)
-        }
-        requestAnimationFrame(raf)
-    }
-
-    const init = () => {
-
-    }
-    const dispose = () => {
-        lenis?.destroy()
-        scene.value?.destroy()
-
-    }
-    return {
-        init,
-        dispose,
-        initailLumiEffect,
-        scene,
-        camera
-    }
+const createLenis = () => {
+  const lenis = new Lenis({
+    smoothWheel: true,
+    lerp: 0.12,
+  })
+  function raf(time: number) {
+    lenis!.raf(time)
+    requestAnimationFrame(raf)
+  }
+  requestAnimationFrame(raf)
+  return lenis
 }

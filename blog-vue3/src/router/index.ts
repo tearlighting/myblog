@@ -131,21 +131,23 @@ export const routes = createRoutes([
         name: "test",
         component: () => import("@/views/home/index.vue"),
         meta: {
+          keepAlive: true,
           title: "test",
           roles: [EPemission.visitor],
         },
-      }
-    ]
-  }, {
-    path: '/github',
+      },
+    ],
+  },
+  {
+    path: "/github",
     name: "github",
     component: DefaultLayout,
     meta: {
       roles: [EPemission.visitor],
       title: "github",
-      externalLink: "https://github.com/tearlighting/"
-    }
-  }
+      externalLink: "https://github.com/tearlighting/",
+    },
+  },
 ])
 
 const router = createRouter({
