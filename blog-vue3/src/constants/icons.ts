@@ -8,5 +8,8 @@ export const enum EIcons {
   Locale = "mdi:language",
   Theme = "unjs:theme-colors",
   Close = "akar-icons:x-small",
-  ExternalLink = "ri:external-link-fill"
+  ExternalLink = "ri:external-link-fill",
+  Calendar = "stash:data-date-light",
+  View = "hugeicons:view",
+  Comment = "mdi-light:comment",
 }
