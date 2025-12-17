@@ -4,9 +4,10 @@ import { useLanguageStore } from "@/store"
 import { loopIndex } from "@/utils"
 import clsx from "clsx"
 import { storeToRefs } from "pinia"
-import { computed, ref, watch } from "vue"
+import { computed, nextTick, ref, watch } from "vue"
 import { useRoute } from "vue-router"
 import ProjectCard from "./components/ProjectCard.vue"
+import { ECarouselPhase } from "./constant"
 import { initializer } from "./initializer"
 import { useProjectStore } from "./store"
 const enum EProject {
@@ -23,6 +24,7 @@ const routeInfo = computed(() => {
 
 const {
   projectListStore: { projects },
+  projectCardECarouselPhaseStateMachineRef,
 } = useProjectStore()
 
 const { currentLocale } = storeToRefs(useLanguageStore())
@@ -49,9 +51,15 @@ const renderItems = computed(() => {
 })
 
 watch(
-  renderItems.value,
-  () => {
-    console.log(renderItems.value)
+  activeIndex,
+  async () => {
+    await nextTick()
+    //init 动画结束，进入下一个阶段
+    setTimeout(() => {
+      projectCardECarouselPhaseStateMachineRef.current?.send({
+        type: ECarouselPhase.rendered,
+      })
+    }, 1000)
   },
   {
     immediate: true,
@@ -61,10 +69,30 @@ watch(
 
 <template>
   <PageLoader :use-store="useProjectStore" :initializer="initializer" :payload="routeInfo">
-    <div role="project-track" class="grid grid-cols-[1fr_1fr_1fr] h-full gap-[4rem] items-center overflow-x-hidden perspective-distant px-[8%] py-[5%]">
+    <div role="project-track" class="grid grid-cols-[.5fr_1fr_.5fr] h-full gap-[2rem] items-center overflow-x-hidden perspective-distant px-[8%] py-[5%]">
       <ProjectCard :project="item" v-for="(item, idx) in renderItems" :key="item.id" :class="clsx(idx === 0 && 'pre-card', idx === 1 && 'active-card', idx === 2 && 'next-card')" />
     </div>
   </PageLoader>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+[role="project-track"] {
+  [role="project-card"] {
+    &.pre-card {
+      transform: translateX(-42%) rotateY(-10deg) scale(0.92);
+      filter: blur(1.5px);
+      opacity: 0.55;
+    }
+    &.active-card {
+      transform: translateX(0) rotateY(0) scale(1);
+      filter: none;
+      opacity: 1;
+    }
+    &.next-card {
+      transform: translateX(42%) rotateY(10deg) scale(0.92);
+      filter: blur(1.5px);
+      opacity: 0.55;
+    }
+  }
+}
+</style>

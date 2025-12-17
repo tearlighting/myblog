@@ -27,3 +27,21 @@ export class SubPub<TTopic extends any = string> {
 }
 
 export const createSubPubIns = <T extends any = string>() => new SubPub<T>()
+
+export const createUseSubBub = <T extends any = string>() => {
+    const useSubPub = () => {
+        const subPubIns = createSubPubIns<T>();
+        const init = (payload: {}) => {
+
+        }
+        const dispose = () => {
+            subPubIns.destroy()
+        }
+        return {
+            subPubIns,
+            init,
+            dispose
+        }
+    }
+    return useSubPub
+}

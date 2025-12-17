@@ -22,17 +22,17 @@ export abstract class AbstractStateMachine<State extends StateName, TPayload = a
         }
     }
 
-    public transition(next: State, _payload?: TPayload) {
+    public transition(next: State, payload?: TPayload) {
         const prev = this._current
-        this.onExit(prev)
+        this.onExit(prev, payload)
         this._current = next
-        this.onEnter(next)
+        this.onEnter(next, payload)
         this._listeners.forEach((l) => l(next))
     }
 
     /** 生命周期钩子 */
-    protected abstract onEnter(_state: State): void
-    protected abstract onExit(_state: State): void
+    protected abstract onEnter(state: State, payload?: TPayload): void
+    protected abstract onExit(state: State, payload?: TPayload): void
 
     public subscribe(listener: (s: State) => void) {
         this._listeners.add(listener)

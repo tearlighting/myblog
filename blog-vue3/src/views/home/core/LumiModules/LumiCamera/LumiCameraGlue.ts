@@ -3,7 +3,7 @@ import type { VirtualScrollData } from "lenis"
 import { ELumiTopic } from "../../constant"
 import type { ILumiModule } from "../type"
 import { LumiCamera } from "./LumiCamera"
-import { LumiDomRenderer, type ILumiRenderer } from "./LumiDomRenderer"
+import { type ILumiRenderer } from "./LumiDomRenderer"
 import { LumiSmoothCameraState } from "./LumiSmoothCameraState"
 
 export class LumiCameraGlue implements ILumiModule {
@@ -32,10 +32,12 @@ export class LumiCameraGlue implements ILumiModule {
 
     // ✅ 顶到边界并压满：触发切页（一次）
     if (smooth.pressure >= 1 && smooth.boundary) {
+      console.log("切页", payload);
+
       this.locked = true
       this.pub.publish(ELumiTopic.switch, payload)
       this.smoothState.reset()
     }
   }
-  onHover(p: { nx: number; ny: number }): void {}
+  onHover(p: { nx: number; ny: number }): void { }
 }

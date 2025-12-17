@@ -33,3 +33,8 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
  * ```
  */
 type XOR<T, U> = (T & { [K in keyof U]?: never }) | (U & { [K in keyof T]?: never })
+
+type EnumKey<T extends Record<string, string>> = keyof T
+
+type AddPrefix<T extends string, prefix extends string = "on"> = T extends string ? `${prefix}${Capitalize<T>}` : never
+

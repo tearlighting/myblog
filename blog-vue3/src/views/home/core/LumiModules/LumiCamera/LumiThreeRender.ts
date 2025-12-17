@@ -58,7 +58,7 @@ export class LumiThreeRenderer implements ILumiRenderer {
       rotateX(${state.tiltY}deg)
       scale(${1 + state.pressure * 0.04})
     `
-    console.log(state.pressure)
+    // console.log(state.pressure)
 
     this.blur.style.filter = `
       blur(${state.pressure * 4}px)

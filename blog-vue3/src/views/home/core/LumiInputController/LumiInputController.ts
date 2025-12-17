@@ -1,12 +1,13 @@
 import { createSubPubIns, SubPub } from "@/utils"
 import Lenis, { type VirtualScrollData } from "lenis"
+import type { ELumiState } from "../../constant"
 import type { ILumiModule } from "../LumiModules/type"
 import { ELumiTopic } from "../constant"
 
 class AutoPlay {
   private _playable = true
   private _timer: number | null = null
-  constructor(private _subPubIns: SubPub<ELumiTopic>) {}
+  constructor(private _subPubIns: SubPub<ELumiTopic>) { }
   play() {
     requestAnimationFrame(() => {
       this._subPubIns.publish<VirtualScrollData>(ELumiTopic.scroll, { deltaY: 0.09, deltaX: 0, event: null as any })
@@ -34,7 +35,7 @@ class AutoPlay {
  */
 export class LumiInputController {
   private _modules: ILumiModule[] = []
-  private _subPubIns = createSubPubIns<ELumiTopic>()
+  private _subPubIns = createSubPubIns<ELumiTopic | ELumiState>()
   private _autoPlay: AutoPlay
   constructor(private _scrollerController: Lenis, private _pointerTrigger: HTMLElement) {
     this._autoPlay = new AutoPlay(this._subPubIns)
