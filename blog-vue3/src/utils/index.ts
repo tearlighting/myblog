@@ -1,3 +1,4 @@
+export * from "./autoPlay"
 export * from "./common"
 export * from "./loading"
 export * from "./menu"

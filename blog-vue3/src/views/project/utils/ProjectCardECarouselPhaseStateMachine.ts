@@ -14,8 +14,8 @@ export class ProjectCardECarouselPhaseStateMachine extends AbstractStateMachine<
         }
         return null
     }
-    protected onEnter(state: ECarouselPhase): void {
-        this._subPub.publish(state);
+    protected onEnter(state: ECarouselPhase, payload?: any): void {
+        this._subPub.publish(state, payload);
     }
     protected onExit(_state: ECarouselPhase): void {
 
@@ -24,6 +24,6 @@ export class ProjectCardECarouselPhaseStateMachine extends AbstractStateMachine<
 }
 const PATH: Record<ECarouselPhase, ECarouselPhase[]> = {
     [ECarouselPhase.idle]: [ECarouselPhase.ready],
-    [ECarouselPhase.ready]: [ECarouselPhase.switch],
-    [ECarouselPhase.switch]: [ECarouselPhase.idle]
+    [ECarouselPhase.ready]: [ECarouselPhase.switching],
+    [ECarouselPhase.switching]: [ECarouselPhase.idle]
 }

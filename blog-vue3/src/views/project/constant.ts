@@ -5,5 +5,10 @@
 export const enum ECarouselPhase {
     idle = 'idle',
     ready = 'ready',
+    switching = 'switching',
+}
+
+export const enum ECarouselScroll {
+    update = 'update',
     switch = 'switch',
 }

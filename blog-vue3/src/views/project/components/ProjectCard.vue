@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
   <article role="project-card" class="size-full rounded-[16px]">
-    <div role="project-card__inner" class="size-fulls grid grid-cols-1 gap-[1.2rem] p-[1.6rem]">
+    <div role="project-card__inner" class="size-full grid grid-cols-1 gap-[1.2rem] p-[1.6rem]">
       <!-- 封面（可选） -->
       <div v-if="project.thumb" role="project-cover" class="w-full h-full rounded-[12px] overflow-hidden">
         <img :src="project.thumb" alt="" class="size-full object-cover" />
@@ -20,7 +20,7 @@ const props = defineProps<{
       <!-- 内容 -->
       <div role="project-body" class="flex flex-col gap-[0.6rem]">
         <header role="project-header" class="flex items-baseline justify-between">
-          <h3 role="project-title" class="text-[1.2rem] font-semibold text-text tracking-wide">{{ project.title }}</h3>
+          <h3 role="project-title" class="text-[1.2rem] font-semibold text-text tracking-wide overflow-hidden overflow-ellipsis whitespace-nowrap flex-1">{{ project.title }}</h3>
           <div role="project-detail" class="text-[0.88rem] text-muted leading-[1.7] max-w-[90%] flex items-center gap-[0.6rem]">
             <span class="flex items-center gap-[0.3rem]"> <SvgIcon :name="EIcons.Calendar" class="text-xl"></SvgIcon>{{ dayjs(project.createdAt).format("YYYY") }} </span>
             <span class="flex items-center gap-[0.3rem]"> <SvgIcon :name="EIcons.View" class="text-xl"></SvgIcon> {{ project.scanNumber }} </span>
