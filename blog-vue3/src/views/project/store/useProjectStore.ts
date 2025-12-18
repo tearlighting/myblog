@@ -12,10 +12,11 @@ export const useProjectStore = createHookStore(() => {
     current: null as ProjectCardECarouselPhaseStateMachine | null,
   }
   const initWrapper: typeof init = (payload) => {
-    init(payload)
-    if (!initialized) {
-      projectCardECarouselPhaseStateMachineRef.current = new ProjectCardECarouselPhaseStateMachine(ECarouselPhase.initing, projectSubPub.subPubIns)
+    if (!initialized.current) {
+      projectCardECarouselPhaseStateMachineRef.current = new ProjectCardECarouselPhaseStateMachine(ECarouselPhase.idle, projectSubPub.subPubIns)
     }
+    init(payload)
+
   }
   return {
     ...rest,

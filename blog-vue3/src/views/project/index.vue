@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import PageLoader from "@/components/PageLoader/index.vue"
 import { useLanguageStore } from "@/store"
-import { loopIndex } from "@/utils"
+import { loopIndex, sleep } from "@/utils"
 import clsx from "clsx"
 import { storeToRefs } from "pinia"
 import { computed, nextTick, ref, watch } from "vue"
@@ -54,12 +54,11 @@ watch(
   activeIndex,
   async () => {
     await nextTick()
-    //init 动画结束，进入下一个阶段
-    setTimeout(() => {
-      projectCardECarouselPhaseStateMachineRef.current?.send({
-        type: ECarouselPhase.rendered,
-      })
-    }, 1000)
+    //动画结束，进入下一个阶段
+    await sleep(600)
+    projectCardECarouselPhaseStateMachineRef.current?.send({
+      type: ECarouselPhase.ready,
+    })
   },
   {
     immediate: true,

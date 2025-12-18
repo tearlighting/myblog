@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, ref, watch } from "vue"
 
+import { loopIndex } from "@/utils"
 import type { VirtualScrollData } from "lenis"
 import { ELumiState } from "../constant"
 import { useInitLumiEffect, useSetStateTransition } from "../logicHooks"
@@ -19,6 +20,7 @@ const props = defineProps<{
 
 const { lumiStateMachine } = useHomeStore()
 
+const targetRef = ref<HTMLElement | null>(null)
 const cardRef = ref<HTMLElement | null>(null)
 const glassRef = ref<HTMLElement | null>(null)
 const blurRef = ref<HTMLElement | null>(null)
@@ -29,7 +31,6 @@ const titleRef = ref<HTMLElement | null>(null)
 const descriptionRef = ref<HTMLElement | null>(null)
 
 let initialized = false
-
 watch(
   () => props.slides,
   async () => {
@@ -38,6 +39,7 @@ watch(
     initialized = true
     await nextTick()
     useInitLumiEffect({
+      target: targetRef.value!,
       cardDoms: {
         card: cardRef.value!,
         media: mediaRef.value!,
@@ -64,29 +66,31 @@ watch(
 
 /**  切换逻辑 */
 const activeIndex = ref(0)
+
 async function switchSlide(payload: VirtualScrollData) {
   if (payload.deltaY > 0) {
-    activeIndex.value = (activeIndex.value + 1) % props.slides.length
+    activeIndex.value = loopIndex(activeIndex.value + 1, props.slides.length)
+    console.log(activeIndex)
   } else {
-    activeIndex.value = (activeIndex.value - 1 + props.slides.length) % props.slides.length
+    activeIndex.value = loopIndex(activeIndex.value - 1, props.slides.length)
   }
 }
 
-watch(activeIndex, async () => {
+watch(activeIndex, () => {
   lumiStateMachine.send({
-    type: ELumiState.loading,
+    type: ELumiState.idle,
   })
 })
 
 function onImgLoad() {
   lumiStateMachine.send({
-    type: ELumiState.loaded,
+    type: ELumiState.ready,
   })
 }
 </script>
 
 <template>
-  <section role="lumi-section" class="relative size-full overflow-hidden">
+  <section role="lumi-section" class="relative size-full overflow-hidden" ref="targetRef">
     <div role="lumi-stage" class="size-full relative perspective-distant">
       <!-- 背景层（以后你可以接特效） -->
       <div role="lumi-bg" class="absolute inset-[-30%] z-0 opacity-100 pointer-events-none"></div>

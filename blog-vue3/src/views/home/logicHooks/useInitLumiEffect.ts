@@ -3,8 +3,8 @@ import { ELumiState } from "../constant";
 import { ELumiTopic } from "../core/constant";
 import { useHomeStore } from "../store";
 
-
 interface IUseInitLumiEffectProps {
+    target: HTMLElement;
     cardDoms: {
         card: HTMLElement;
         img: HTMLImageElement;
@@ -31,12 +31,8 @@ export const useInitLumiEffect = (payload: IUseInitLumiEffectProps) => {
     scene.value?.subPubIns && lumiStateMachine.setSubPub(scene.value.subPubIns)
     scene.value!.subPubIns.subscribe<VirtualScrollData>(ELumiTopic.switch, (payload) => {
         lumiStateMachine.send({
-            type: ELumiState.leaving,
+            type: ELumiState.switching,
             payload
         })
     })
-    lumiStateMachine.send({
-        type: ELumiState.loading
-    })
-
 }

@@ -29,10 +29,7 @@ export class LumiStateMachine extends AbstractStateMachine<ELumiState> {
 }
 
 const PATH: Record<ELumiState, ELumiState[]> = {
-    [ELumiState.idle]: [ELumiState.loading],
-    [ELumiState.loading]: [ELumiState.loaded],
-    [ELumiState.loaded]: [ELumiState.showing],
-    [ELumiState.showing]: [ELumiState.leaving],
-    [ELumiState.leaving]: [ELumiState.leaved, ELumiState.showing],
-    [ELumiState.leaved]: [ELumiState.loading],
+    [ELumiState.idle]: [ELumiState.ready],
+    [ELumiState.ready]: [ELumiState.switching],
+    [ELumiState.switching]: [ELumiState.idle]
 }

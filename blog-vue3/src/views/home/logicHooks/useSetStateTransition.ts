@@ -1,4 +1,4 @@
-import { sleep } from "@/utils"
+import { createFlowMiddleware, sleep, type FlowMiddleWareCallback } from "@/utils"
 import type { VirtualScrollData } from "lenis"
 import { nextTick, type Ref } from "vue"
 import { ELumiState } from "../constant"
@@ -10,12 +10,34 @@ interface IUseSetStateTransitionProps {
     imgRef: Ref<HTMLImageElement | null>
     switchSlide(payload: VirtualScrollData): void
 }
+
+interface ISwichMiddleWareProps {
+    switchSlide(payload: VirtualScrollData): void
+    payload: VirtualScrollData
+}
+const showLeavingAnimation: FlowMiddleWareCallback<ISwichMiddleWareProps> = async (_, next) => {
+    const { lumiStore: { scene, lumiRender, lumiText } } = useHomeStore()
+    await lumiText.value.exit()
+    await sleep(200)
+    await lumiRender.beforeSwitch?.()
+    scene.value?.autoPlay.scheduleAutoPlay()
+    await next()
+}
+
+const switchSlide: FlowMiddleWareCallback<ISwichMiddleWareProps> = async ({ switchSlide, payload }, next) => {
+    switchSlide(payload)
+    await next()
+}
+const switchMiddleWare = createFlowMiddleware<ISwichMiddleWareProps>().use(showLeavingAnimation).use(switchSlide)
+
 export const useSetStateTransition = ({ mediaRef, imgRef, switchSlide }: IUseSetStateTransitionProps) => {
-    const { lumiStore: { scene, lumiRender, camera, lumiText }, lumiStateMachine } = useHomeStore()
+    const { lumiStore: { scene, lumiRender, camera, lumiText } } = useHomeStore()
     const subPub = scene.value?.subPubIns
     if (!subPub) return
-
-    subPub.subscribe(ELumiState.loading, async () => {
+    /**
+     * 加载资源阶段
+     */
+    subPub.subscribe(ELumiState.idle, async () => {
         mediaRef.value?.classList.remove("is-loaded")
         await nextTick()
         /**
@@ -23,7 +45,12 @@ export const useSetStateTransition = ({ mediaRef, imgRef, switchSlide }: IUseSet
          */
         imgRef.value && lumiRender.switchImg(imgRef.value)
     })
-    subPub.subscribe(ELumiState.loaded, async () => {
+    /**
+     * 资源加载完成
+     */
+    subPub.subscribe(ELumiState.ready, async () => {
+        console.log("ready");
+
         mediaRef.value?.classList.add("is-loaded")
         requestAnimationFrame(async () => {
             // ✅ 新图加载完成，更新 metrics
@@ -40,31 +67,16 @@ export const useSetStateTransition = ({ mediaRef, imgRef, switchSlide }: IUseSet
             await nextTick()
             await sleep(500)
             lumiText.value.enter()
-            lumiStateMachine.send({
-                type: ELumiState.showing,
-            })
         })
 
     })
-
-    //todo 其实这种连续的东西，他本身应该不是应该状态的转移，而应该是一个MiddleWare
-    subPub.subscribe(ELumiState.leaving, async (payload: VirtualScrollData) => {
-        await lumiText.value.exit()
-        await sleep(200)
-        await lumiRender.beforeSwitch?.()
-        scene.value?.autoPlay.scheduleAutoPlay()
-        console.log(payload);
-
-        lumiStateMachine.send({
-            type: ELumiState.leaved,
+    /**
+     * 切换
+     */
+    subPub.subscribe(ELumiState.switching, async (payload: VirtualScrollData) => {
+        await switchMiddleWare.run({
+            switchSlide,
             payload
-        })
-    })
-
-    subPub.subscribe(ELumiState.leaved, async (payload: VirtualScrollData) => {
-        switchSlide(payload)
-        lumiStateMachine.send({
-            type: ELumiState.idle
         })
     })
 

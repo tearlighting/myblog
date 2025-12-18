@@ -1,14 +1,13 @@
 import Lenis from "lenis"
-import { ref, shallowRef, type Ref, type ShallowRef } from "vue"
+import { shallowRef, type ShallowRef } from "vue"
 import { LumiInputController } from "../core"
 import { LumiCameraGlue } from "../core/LumiModules/LumiCamera/LumiCameraGlue"
-import { LumiDomRenderer, type ILumiRenderer } from "../core/LumiModules/LumiCamera/LumiDomRenderer"
+import { type ILumiRenderer } from "../core/LumiModules/LumiCamera/LumiDomRenderer"
 import { LumiThreeRenderer } from "../core/LumiModules/LumiCamera/LumiThreeRender"
-import { LumiText } from "../core/LumiModules/LumiText/LumiText"
-import { LumiTextGlue } from "../core/LumiModules/LumiText/LumiTextGlue"
 import { LumiTextGroup } from "../core/LumiModules/LumiText/LumiTextGroup"
 
 interface IInitialLumiEffectProps {
+  target: HTMLElement;
   cardDoms: {
     card: HTMLElement
     img: HTMLImageElement
@@ -39,11 +38,11 @@ export const useLumi = (): IUseLumi => {
   const lumiThreeRender = new LumiThreeRenderer()
   const lumiText = shallowRef<LumiTextGroup>() as ShallowRef<LumiTextGroup>
   let initialized = false
-  const initailLumiEffect = ({ cardDoms: { card, img, media, glass, blur }, textDoms: { text, title, description } }: IInitialLumiEffectProps) => {
+  const initailLumiEffect = ({ cardDoms: { card, img, media, glass, blur }, textDoms: { text, title, description }, target }: IInitialLumiEffectProps) => {
     if (initialized) return
     initialized = true
 
-    lenis = createLenis()
+    lenis = createLenis(target)
     // lumiRender.bind({ card, img, media })
     lumiThreeRender.bind({ card, img, media, glass, blur })
     scene.value = new LumiInputController(lenis, card)
@@ -65,7 +64,7 @@ export const useLumi = (): IUseLumi => {
     scene.value.registerModule(camera.value)
   }
 
-  const init = () => {}
+  const init = () => { }
   const dispose = () => {
     lenis?.destroy()
     scene.value?.destroy()
@@ -81,10 +80,11 @@ export const useLumi = (): IUseLumi => {
   }
 }
 
-const createLenis = () => {
+const createLenis = (target: HTMLElement | Window = window) => {
   const lenis = new Lenis({
     smoothWheel: true,
     lerp: 0.12,
+    eventsTarget: target,
   })
   function raf(time: number) {
     lenis!.raf(time)
