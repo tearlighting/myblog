@@ -149,7 +149,7 @@ export const routes = createRoutes([
       {
         path: "",
         name: "project",
-        component: () => import("@/views/project/index.vue"),
+        component: () => import("@/views/project/projectList/index.vue"),
         meta: {
           keepAlive: true,
           title: "project",

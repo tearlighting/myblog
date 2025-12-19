@@ -118,6 +118,30 @@ const jumpTo = (idx: number) => {
 </template>
 
 <style lang="less" scoped>
+@keyframes card-breathe {
+  0% {
+    box-shadow: 0 12px 28px color-mix(in srgb, #000 35%, transparent), 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+  }
+  50% {
+    box-shadow: 0 16px 36px color-mix(in srgb, #000 45%, transparent), 0 0 28px color-mix(in srgb, var(--color-primary) 28%, transparent);
+  }
+  100% {
+    box-shadow: 0 12px 28px color-mix(in srgb, #000 35%, transparent), 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+  }
+}
+
+@keyframes halo-breathe {
+  0% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.18;
+  }
+}
+
 [role="project-track"] {
   :root {
     --p: 0;
@@ -135,6 +159,20 @@ const jumpTo = (idx: number) => {
       transform: translateX(calc(var(--p) * 40%)) scale(calc(1 + var(--p) * 0.04));
       filter: none;
       opacity: 1;
+      [role="project-card"] {
+        animation: card-breathe 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        &::after {
+          content: "";
+          position: absolute;
+          inset: -14px;
+          border-radius: inherit;
+          pointer-events: none;
+          background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-primary) 22%, transparent), transparent 65%);
+          filter: blur(18px);
+          opacity: 0.22;
+          animation: halo-breathe 5s ease infinite;
+        }
+      }
     }
     &.next-card {
       transform: translateX(42%) rotateY(calc(10deg + var(--p) * 6deg)) scale(calc(0.92 - var(--p) * 0.04));

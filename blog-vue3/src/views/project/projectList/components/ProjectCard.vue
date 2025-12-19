@@ -32,8 +32,8 @@ const props = defineProps<{
           {{ project.description }}
         </p>
         <ul role="project-tags" class="flex flex-wrap gap-[0.4rem] mt-[0.4rem]">
-          <li class="text-[0.75rem] px-[0.55rem] py-[0.2rem] text-muted rounded-full">React</li>
-          <li class="text-[0.75rem] px-[0.55rem] py-[0.2rem] text-muted rounded-full">vue</li>
+          <li class="text-[0.75rem] px-[0.6rem] py-[0.2rem] text-muted rounded-full text-center">React</li>
+          <li class="text-[0.75rem] px-[0.6rem] py-[0.2rem] text-muted rounded-full">vue</li>
         </ul>
         <!-- CTA -->
         <a role="project-link" class="mt-[0.8rem] text-[0.85rem] text-primary decoration-0 self-start hover:underline cursor-pointer"> View Project → </a>
@@ -80,6 +80,13 @@ const props = defineProps<{
 
   [role="project-tags"] li {
     background: var(--surface-2);
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      background: color-mix(in srgb, var(--surface-2) 85%, var(--color-primary));
+      border-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+    }
   }
 }
 </style>
