@@ -12,4 +12,6 @@ export const enum EIcons {
   Calendar = "stash:data-date-light",
   View = "hugeicons:view",
   Comment = "mdi-light:comment",
+  ArrowDown = "ep:arrow-down",
+  ArrowUp = "ep:arrow-up",
 }

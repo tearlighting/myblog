@@ -4,17 +4,22 @@ export interface IProjectItem {
   scanNumber: number
   commentNumber: number
   createdAt: string
-
   translations: IProjectTranslation[]
 }
 
+export interface Toc {
+  anchor: string
+  name: string
+  tag: string
+  children: Toc[]
+}
 export interface IProjectTranslation {
   projectId: string
   id: string
   lang: string
   title: string
   description: string
-  toc: string
+  toc: Toc[]
   htmlContent: string
 }
 

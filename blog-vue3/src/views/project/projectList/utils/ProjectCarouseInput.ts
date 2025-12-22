@@ -1,4 +1,4 @@
-import { AutoPlay, SubPub } from "@/utils";
+import { AutoPlay, createLenis, SubPub } from "@/utils";
 import Lenis, { type VirtualScrollData } from "lenis";
 import { ECarouselScroll } from "../constant";
 
@@ -28,7 +28,9 @@ export class ProjectCarouseInputBuilder {
     private _subPubIns!: SubPub<ECarouselScroll>
     defineTarget(target: HTMLElement | Window) {
         this._target = target
-        this._lenis = createLenis(target)
+        this._lenis = createLenis({
+            eventsTarget: target
+        })
         return this
     }
     defineSubPub(subPubIns: SubPub<ECarouselScroll>) {
@@ -43,16 +45,4 @@ export class ProjectCarouseInputBuilder {
 }
 
 
-const createLenis = (target: HTMLElement | Window = window) => {
-    const lenis = new Lenis({
-        smoothWheel: true,
-        lerp: 0.12,
-        eventsTarget: target,
-    })
-    function raf(time: number) {
-        lenis!.raf(time)
-        requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
-    return lenis
-}
+

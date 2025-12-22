@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppLogo: typeof import('./src/components/Aside/AppLogo.vue')['default']
+    Article: typeof import('./src/components/Article/index.vue')['default']
     Aside: typeof import('./src/components/Aside/index.vue')['default']
     Button: typeof import('./src/components/UI/Button/Button.vue')['default']
     ControllerContainer: typeof import('./src/components/NavBar/ControllerContainer.vue')['default']
@@ -33,6 +34,7 @@ declare module 'vue' {
     TagViews: typeof import('./src/components/TagViews/index.vue')['default']
     Test: typeof import('./src/components/test/index.vue')['default']
     ThemeSwitch: typeof import('./src/components/NavBar/ThemeSwitch.vue')['default']
+    Toc: typeof import('./src/components/Toc/Toc.vue')['default']
     UserAvatar: typeof import('./src/components/NavBar/UserAvatar.vue')['default']
     UserAvater: typeof import('./src/components/NavBar/UserAvater.vue')['default']
   }

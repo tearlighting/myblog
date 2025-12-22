@@ -1,8 +1,8 @@
-import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
-import Icons from "unplugin-icons/vite"
 import IconsResolver from "unplugin-icons/resolver"
+import Icons from "unplugin-icons/vite"
 import Components from "unplugin-vue-components/vite"
+import { defineConfig } from "vite"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
@@ -29,14 +29,14 @@ export default defineConfig({
       // 匹配到 /api 前缀的请求，转发到目标服务器
       "/api": {
         target:
-          // "https://tearlighting.com" ||
+          "https://tearlighting.com" ||
           "http://localhost:8888", // 后端地址
         changeOrigin: true, // 修改请求头 origin
         // 如果后端就是 /upload/imgs，就不用改；如果是 /imgs，就写成 path => path.replace(/^\/upload/, "")
       },
       "/tearlightingblog/uploads": {
         target:
-          // "https://tearlighting.com" ||
+          "https://tearlighting.com" ||
           "http://localhost:8888",
         changeOrigin: true,
       },

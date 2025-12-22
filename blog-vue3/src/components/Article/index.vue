@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { computed, nextTick, watch } from "vue"
-
 import { useThemeStore } from "@/store"
 import clsx from "clsx"
 import { storeToRefs } from "pinia"
 import { highlightAll } from "prismjs"
+import { computed, nextTick, watch } from "vue"
 
 interface IProps {
   article?: string
@@ -30,8 +29,8 @@ const isLightTheme = computed(() => {
 </script>
 
 <template>
-  <div v-if="article" role="project-detail-article" :class="clsx(isLightTheme && 'light')">
-    <div role="project-section" v-html="article"></div>
+  <div v-if="article" role="article-wrapper" :class="clsx(isLightTheme && 'light')">
+    <div role="article-section" v-html="article"></div>
   </div>
 </template>
 
@@ -82,9 +81,9 @@ const isLightTheme = computed(() => {
   }
 }
 
-[role="project-detail-article"] {
+[role="article-wrapper"] {
   &.light {
-    :deep([role="project-section"]) {
+    :deep([role="article-section"]) {
       background: #ffffff;
       border-radius: 14px;
       border: 1px solid var(--divider);
@@ -100,7 +99,7 @@ const isLightTheme = computed(() => {
   --text-muted: var(--color-muted);
   --text-faint: color-mix(in srgb, var(--color-muted) 70%, transparent);
 
-  :deep([role="project-section"]) {
+  :deep([role="article-section"]) {
     /* 基础排版：让整块内容更“印刷体” */
     max-width: 78ch;
     margin: 0 auto;
