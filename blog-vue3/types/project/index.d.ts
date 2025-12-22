@@ -33,3 +33,11 @@ export interface IProjectCard extends IProjectTranslation {
   commentNumber: number
   createdAt: string
 }
+
+type SectionType =
+  | "overview" // 是什么（一句话就够）
+  | "background" // 背景 / 为什么 / 动机
+  | "core" // 核心思想 / 设计要点
+  | "implementation" // 实现细节 / 代码 / 推导
+  | "result" // 成果 / 对比 / demo / 结论
+  | "reflection" // 反思 / 得失 / 未来

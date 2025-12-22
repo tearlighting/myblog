@@ -16,7 +16,7 @@ export const getProjects = <T extends IPagination>(data: T) => {
   })
 }
 
-export const getArticle = (id: string) => {
+export const getProjectDetail = (id: string) => {
   return request<IProjectDetail>({
     url: `/project/detail/${id}`,
   })

@@ -42,13 +42,11 @@ onBeforeUnmount(() => {
 		<template v-slot:centerLine2>
 			<TagViews></TagViews>
 		</template>
-		<div role="page-host" class="size-full overflow-auto relative p-6 min-h-0" ref="hostRef">
+		<div role="page-host" class="size-full overflow-auto relative p-6  min-h-0" ref="hostRef">
 
 			<RouterView #="{ Component }">
 				<KeepAlive :include="allCachedTags">
-
 					<component :is="Component" :key="currentRoute.name" />
-
 				</KeepAlive>
 			</RouterView>
 			<div role="ambient-glow"></div>

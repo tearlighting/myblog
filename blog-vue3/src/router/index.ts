@@ -156,6 +156,16 @@ export const routes = createRoutes([
           roles: [EPemission.visitor],
         },
       },
+      {
+        path: "detail/:id",
+        name: "projectDetail",
+        component: () => import("@/views/project/projectDetail/index.vue"),
+        meta: {
+          keepAlive: false,
+          title: "projectDetail",
+          roles: [EPemission.visitor],
+        },
+      },
     ],
   },
   {

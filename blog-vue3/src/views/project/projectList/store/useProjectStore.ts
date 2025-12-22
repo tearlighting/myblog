@@ -1,13 +1,13 @@
 import { createHookStore, createUseSubBub, withMergeDispose } from "@/utils"
 import { ECarouselPhase, ECarouselScroll } from "../constant"
-import { useProjectCarousel, useProjectList, } from "../hooks"
+import { useProjectCarousel, useProjectList } from "../hooks"
 import { ProjectCardECarouselPhaseStateMachine } from "../utils"
 
 export const useProjectStore = createHookStore(() => {
   const { init, initialized, projectSubPub, ...rest } = withMergeDispose({
     projectListStore: useProjectList(),
     projectSubPub: createUseSubBub<ECarouselPhase | ECarouselScroll>()(),
-    projectCarouselStore: useProjectCarousel()
+    projectCarouselStore: useProjectCarousel(),
   })
   const projectCardECarouselPhaseStateMachineRef = {
     current: null as ProjectCardECarouselPhaseStateMachine | null,
