@@ -29,7 +29,7 @@ const isLightTheme = computed(() => {
 </script>
 
 <template>
-  <div v-if="article" role="article-wrapper" :class="clsx(isLightTheme && 'light')">
+  <div v-if="article" role="article-wrapper" :class="clsx(isLightTheme && 'light')" class="w-full">
     <div role="article-section" v-html="article"></div>
   </div>
 </template>
@@ -102,11 +102,21 @@ const isLightTheme = computed(() => {
   :deep([role="article-section"]) {
     /* 基础排版：让整块内容更“印刷体” */
     max-width: 78ch;
+    @media screen and (max-width: 640px) {
+      max-width: 100%;
+    }
     margin: 0 auto;
-    padding: clamp(24px, 4vw, 56px) clamp(18px, 3vw, 40px);
+    padding: clamp(24px, 4vw, 56px) clamp(0px, 3vw, 40px);
+    @media screen and (max-width: 640px) {
+      & {
+        // background-color: red !important;
+        padding: clamp(24px, 4vw, 56px) 0;
+      }
+    }
 
     color: var(--text);
-    line-height: 1.8;
+    line-height: 1.7;
+    counter-reset: chapter-count;
 
     /* 标题层级 */
     h1 {
@@ -298,6 +308,10 @@ const isLightTheme = computed(() => {
 
     tr:last-child td {
       border-bottom: none;
+    }
+    img {
+      max-width: 100%;
+      overflow-x: auto;
     }
 
     /* 链接：别太亮，hover 再亮 */

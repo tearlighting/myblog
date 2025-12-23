@@ -1,6 +1,6 @@
-import { getProjects, type IPagination } from "@/api/project"
+import { getProjects, type IPagination } from "@/api"
 
-interface ProjectInitailProps extends IPagination {}
+interface ProjectInitailProps extends IPagination { }
 export const initializer = async (payload: ProjectInitailProps) => {
   const { msg, data } = await getProjects(payload)
   if (msg) throw msg

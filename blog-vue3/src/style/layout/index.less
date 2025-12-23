@@ -1,3 +1,10 @@
 html {
   min-width: 320px;
 }
+[role="page-host"] {
+  &:has([role="project-track"]) {
+    @media screen and (max-width: 640px) {
+      padding-inline: 0px;
+    }
+  }
+}

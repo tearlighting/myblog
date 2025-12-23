@@ -1,0 +1,19 @@
+import { request } from "@/utils"
+import { addSiteBaseToUrl } from "@/utils/resource"
+import type { IArticleItem } from "article"
+interface IGetBlogItemsProps {
+    limit: number
+    page: number
+    id?: number
+}
+export const getArticles = <T extends IGetBlogItemsProps>(data: T) => {
+    return request<IGrid<IArticleItem>>({
+        url: "/blog",
+        params: data,
+    }).then(res => {
+        res.data.rows.forEach(x =>
+            x.thumb = addSiteBaseToUrl(x.thumb)
+        )
+        return res
+    })
+}

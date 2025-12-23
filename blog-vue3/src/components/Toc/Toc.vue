@@ -66,10 +66,9 @@ const parentMap = computed(() => {
 
   return map
 })
+
 function isActiveParent(anchor: string) {
   if (!props.activeAnchor) return false
-
-  if (anchor === props.activeAnchor) return true
   let cur = parentMap.value.get(props.activeAnchor)
   while (cur) {
     if (cur === anchor) return true

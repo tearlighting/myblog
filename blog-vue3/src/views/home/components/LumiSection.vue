@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { nextTick, ref, watch } from "vue"
 
-import { loopIndex } from "@/utils"
-import type { VirtualScrollData } from "lenis"
-import { ELumiState } from "../constant"
-import { useInitLumiEffect, useSetStateTransition } from "../logicHooks"
-import { useHomeStore } from "../store"
+import { useActiveIndex, useInitLumiEffect, useSetStateTransition } from "../logicHooks"
 
 interface LumiSlide {
   id: string
@@ -18,8 +14,6 @@ const props = defineProps<{
   slides: LumiSlide[]
 }>()
 
-const { lumiStateMachine } = useHomeStore()
-
 const targetRef = ref<HTMLElement | null>(null)
 const cardRef = ref<HTMLElement | null>(null)
 const glassRef = ref<HTMLElement | null>(null)
@@ -29,7 +23,6 @@ const mediaRef = ref<HTMLElement | null>(null)
 const textRef = ref<HTMLElement | null>(null)
 const titleRef = ref<HTMLElement | null>(null)
 const descriptionRef = ref<HTMLElement | null>(null)
-
 let initialized = false
 watch(
   () => props.slides,
@@ -65,28 +58,7 @@ watch(
 )
 
 /**  切换逻辑 */
-const activeIndex = ref(0)
-
-async function switchSlide(payload: VirtualScrollData) {
-  if (payload.deltaY > 0) {
-    activeIndex.value = loopIndex(activeIndex.value + 1, props.slides.length)
-    console.log(activeIndex)
-  } else {
-    activeIndex.value = loopIndex(activeIndex.value - 1, props.slides.length)
-  }
-}
-
-watch(activeIndex, () => {
-  lumiStateMachine.send({
-    type: ELumiState.idle,
-  })
-})
-
-function onImgLoad() {
-  lumiStateMachine.send({
-    type: ELumiState.ready,
-  })
-}
+const { activeIndex, switchSlide, onImgLoad } = useActiveIndex({ slides: props.slides })
 </script>
 
 <template>

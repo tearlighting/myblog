@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useLanguageStore } from "@/store"
-import { loopIndex, sleep } from "@/utils"
+import { sleep } from "@/utils"
 import clsx from "clsx"
-import { storeToRefs } from "pinia"
-import { computed, nextTick, ref, watch } from "vue"
+import { nextTick, ref, watch } from "vue"
 import { useRouter } from "vue-router"
 import { ECarouselPhase } from "../constant"
-import { useInitCarousel, useInitStateTransition } from "../logicHooks"
+import { useActiveIndex, useInitCarousel, useInitStateTransition, useSwithOnClick } from "../logicHooks"
 import { useProjectStore } from "../store"
 import ProjectCard from "./ProjectCard.vue"
 
@@ -15,40 +13,11 @@ const {
   projectCardECarouselPhaseStateMachineRef,
 } = useProjectStore()
 
-const { currentLocale } = storeToRefs(useLanguageStore())
-
-const projectWithTranslateContent = computed(() => {
-  const lang = currentLocale.value
-  return projects.map((item) => {
-    const translateContent = item.translations.find((x) => x.lang === lang) || item.translations.find((x) => x.lang === "zh")
-    return {
-      ...item,
-      ...translateContent!,
-    }
-  })
-})
-
-const activeIndex = ref(0)
-
-const changeActiveIndex = (dir: -1 | 1) => {
-  if (dir > 0) {
-    activeIndex.value = loopIndex(activeIndex.value - 1, projectWithTranslateContent.value.length)
-  } else {
-    activeIndex.value = loopIndex(activeIndex.value + 1, projectWithTranslateContent.value.length)
-  }
-}
-
-const renderItems = computed(() => {
-  const list = projectWithTranslateContent.value
-  const len = list.length
-  if (len === 0) return []
-  const cur = activeIndex.value
-  return [list[loopIndex(cur - 1, len)], list[loopIndex(cur, len)], list[loopIndex(cur + 1, len)]]
-})
-
+const { activeIndex, changeActiveIndex, renderItems } = useActiveIndex()
+const { jumpTo } = useSwithOnClick()
 const targetRef = ref<HTMLDivElement>()
-
 let initialized = false
+
 watch(
   projects,
   async () => {
@@ -88,26 +57,6 @@ watch(
   }
 )
 
-const jumpTo = (idx: number) => {
-  if (idx === 1) return
-  if (idx === 0) {
-    projectCardECarouselPhaseStateMachineRef.current?.send({
-      type: ECarouselPhase.switching,
-      payload: {
-        dir: 1,
-        source: "click",
-      },
-    })
-  } else if (idx == 2) {
-    projectCardECarouselPhaseStateMachineRef.current?.send({
-      type: ECarouselPhase.switching,
-      payload: {
-        dir: -1,
-        source: "click",
-      },
-    })
-  }
-}
 const { push } = useRouter()
 const toDetailPage = (id: string) => {
   push({
@@ -122,7 +71,7 @@ const toDetailPage = (id: string) => {
 <template>
   <div
     role="project-track"
-    class="grid xl:grid-cols-[.4fr_1fr_.4fr] grid-cols-[0_1fr_0] h-full gap-[2rem] items-center overflow-hidden perspective-distant xl:py-[2%] sm:px-[8%] sm:py-[3%]"
+    class="touch-none grid xl:grid-cols-[.4fr_1fr_.4fr] grid-cols-[0_1fr_0] h-full gap-[2rem] items-center overflow-hidden perspective-distant xl:py-[2%] sm:px-[8%] sm:py-[3%]"
     ref="targetRef"
   >
     <div
@@ -131,6 +80,7 @@ const toDetailPage = (id: string) => {
       v-for="(item, idx) in renderItems"
       :key="item.id"
       :class="clsx(idx === 0 && 'pre-card', idx === 1 && 'active-card', idx === 2 && 'next-card')"
+      data-draggable
     >
       <ProjectCard :project="item" @click="jumpTo(idx)" :click-detail="() => toDetailPage(item.projectId)" />
     </div>

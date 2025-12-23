@@ -8,6 +8,7 @@ interface IUseInitTocProps {
 }
 export const useInitToc = ({ translatedProjectItem }: IUseInitTocProps) => {
     const tocElMap = new Map<string, HTMLElement>()
+    const TOC_OFFSET_TOP = 16
     watch(
         () => translatedProjectItem.value?.toc,
         async (val) => {
@@ -27,9 +28,12 @@ export const useInitToc = ({ translatedProjectItem }: IUseInitTocProps) => {
             }
             tocElMap.clear()
             loop(val)
-        }
+        }, {
+        immediate: true
+    }
     )
     return {
-        tocElMap
+        tocElMap,
+        TOC_OFFSET_TOP
     }
 }

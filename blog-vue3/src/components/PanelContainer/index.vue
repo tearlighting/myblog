@@ -23,7 +23,7 @@ defineProps<{
     </aside>
 
     <!-- 中间部分 -->
-    <main class="flex-1 flex flex-col" role="main" data-section="center">
+    <main class="flex-1 flex flex-col max-w-[100%]" role="main" data-section="center">
       <!-- 三行可插槽 -->
       <header class="h-fit flex items-center" data-section="center-line1">
         <slot name="centerLine1" />

@@ -1,4 +1,4 @@
-import { getProjectDetail } from "@/api/project"
+import { getProjectDetail } from "@/api"
 
 interface ProjectDetailInitailProps {
   id: string

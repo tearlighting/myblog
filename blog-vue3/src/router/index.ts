@@ -169,6 +169,24 @@ export const routes = createRoutes([
     ],
   },
   {
+    path: "/article",
+    component: DefaultLayout,
+    meta: {
+      hidden: true,
+      roles: [EPemission.visitor],
+    },
+    children: [{
+      component: () => import("@/views/article/articleList/index.vue"),
+      path: "",
+      name: "article",
+      meta: {
+        keepAlive: true,
+        title: "article",
+        roles: [EPemission.visitor],
+      }
+    }]
+  },
+  {
     path: "/github",
     name: "github",
     component: DefaultLayout,
