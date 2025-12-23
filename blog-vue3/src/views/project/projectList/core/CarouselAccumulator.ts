@@ -1,14 +1,13 @@
 import type { VirtualScrollData } from "lenis"
 
 export interface CarouselApplyState {
-    progress: number // 0 ~ 1
-    dir: 1 | -1
+  progress: number // 0 ~ 1
+  dir: 1 | -1
 }
 
 export interface CarouselAccumulatorOptions {
-    threshold?: number
-    damping?: number
-
+  threshold?: number
+  damping?: number
 }
 
 // export class CarouselAccumulator {
@@ -74,62 +73,58 @@ export interface CarouselAccumulatorOptions {
 // }
 
 export class CarouselAccumulator {
-    private value = 0          // 当前势能（-1 ~ 1）
-    private rafId: number | null = null
-    private dir: 1 | -1 = 1
+  private value = 0 // 当前势能（-1 ~ 1）
+  private rafId: number | null = null
+  private dir: 1 | -1 = 1
 
-    private readonly threshold = 0.85
-    private readonly damping = 0.88
+  private readonly threshold = 0.92
+  private readonly damping = 0.88
 
-    private onSwitch?: (dir: 1 | -1) => void
+  private onSwitch?: (dir: 1 | -1) => void
 
-    defineOnSwitch(fn: (dir: 1 | -1) => void) {
-        this.onSwitch = fn
-        return this
+  defineOnSwitch(fn: (dir: 1 | -1) => void) {
+    this.onSwitch = fn
+    return this
+  }
+
+  consume(payload: VirtualScrollData) {
+    const { deltaY } = payload
+    const delta = deltaY * 0.004
+
+    // 累积（允许正负）
+    this.value += delta
+
+    // 限制范围
+    this.value = Math.max(-1, Math.min(1, this.value))
+    this.dir = this.value > 0 ? 1 : -1
+
+    // 判断翻页（用视觉值！）
+    if (Math.abs(this.value) >= this.threshold) {
+      this.onSwitch?.(this.dir)
+      // 翻页后保留一点残余，避免“断感”
+      this.value = 0
     }
+  }
 
-    consume(payload: VirtualScrollData) {
-        const { deltaY } = payload
-        const delta = deltaY * 0.0023
-
-        // 累积（允许正负）
-        this.value += delta
-
-
-        // 限制范围
-        this.value = Math.max(-1, Math.min(1, this.value))
-        this.dir = this.value > 0 ? 1 : -1
-
-        // 判断翻页（用视觉值！）
-        if (Math.abs(this.value) >= this.threshold) {
-            this.onSwitch?.(this.dir)
-            // 翻页后保留一点残余，避免“断感”
-            this.value = 0
-        }
+  start(apply: (state: CarouselApplyState) => void) {
+    const loop = () => {
+      // 自然衰减（回到 0）
+      this.value *= this.damping
+      // 小于极小值直接归零，防抖
+      if (Math.abs(this.value) < 0.001) {
+        this.value = 0
+      }
+      apply({
+        progress: this.value,
+        dir: this.dir,
+      })
+      this.rafId = requestAnimationFrame(loop)
     }
+    loop()
+  }
 
-    start(apply: (state: CarouselApplyState) => void) {
-        const loop = () => {
-            // 自然衰减（回到 0）
-            this.value *= this.damping
-
-            // 小于极小值直接归零，防抖
-            if (Math.abs(this.value) < 0.001) {
-                this.value = 0
-            }
-
-            apply({
-                progress: this.value,
-                dir: this.dir
-            })
-
-            this.rafId = requestAnimationFrame(loop)
-        }
-        loop()
-    }
-
-    stop() {
-        if (this.rafId) cancelAnimationFrame(this.rafId)
-        this.rafId = null
-    }
+  stop() {
+    if (this.rafId) cancelAnimationFrame(this.rafId)
+    this.rafId = null
+  }
 }

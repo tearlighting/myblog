@@ -5,7 +5,7 @@ import { useRouteStore } from "@/store/route"
 import { storeToRefs } from "pinia"
 
 interface IProps {
-  class?: string
+	class?: string
 }
 defineProps<IProps>()
 
@@ -15,7 +15,10 @@ const { getMenuTitle } = useLanguage()
 </script>
 
 <template>
-  <nav v-if="settings.showTitle" :class="class" role="menu-title">{{ getMenuTitle({ meta: currentRoute.meta! }) }}</nav>
+	<nav v-if="settings.showTitle" :class="class" class="select-none" role="menu-title">{{ getMenuTitle({
+		meta:
+			currentRoute.meta!
+	}) }}</nav>
 </template>
 
 <style lang="less" scoped></style>
