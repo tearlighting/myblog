@@ -9,6 +9,7 @@ export interface IArticleItem {
     scanNumber: number
     commentNumber: number
     translations: IBlogTranslation[]
+    createdAt: string
 }
 
 export interface IArticleTranslation {
@@ -19,4 +20,11 @@ export interface IArticleTranslation {
     description: string
     toc: Toc
     htmlContent: string
+}
+
+export interface IArticleCategoryItem {
+    id: string
+    name: string
+    articleCount: number
+    order: number
 }

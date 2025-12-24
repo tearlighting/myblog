@@ -1,6 +1,6 @@
 import { request } from "@/utils"
 import { addSiteBaseToUrl } from "@/utils/resource"
-import type { IArticleItem } from "article"
+import type { IArticleCategoryItem, IArticleItem } from "article"
 interface IGetBlogItemsProps {
     limit: number
     page: number
@@ -15,5 +15,12 @@ export const getArticles = <T extends IGetBlogItemsProps>(data: T) => {
             x.thumb = addSiteBaseToUrl(x.thumb)
         )
         return res
+    })
+}
+
+export const getArticleCategories = () => {
+    return request<IArticleCategoryItem[]>({
+        url: "/blog/blogType",
+        method: "get",
     })
 }

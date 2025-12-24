@@ -1,9 +1,11 @@
 import { createHookStore, withMergeDispose } from "@/utils";
-import { useArticleList } from "../hooks";
+import { useArticleList, useSentinelObserver } from "../hooks";
+
 
 export const useArticleStore = createHookStore(() => {
     const res = withMergeDispose({
-        articleStore: useArticleList()
+        articleStore: useArticleList(),
+        sentinelObserver: useSentinelObserver()
     })
     return res
 })

@@ -79,7 +79,7 @@ export class CarouselAccumulator {
 
   private readonly threshold = 0.92
   private readonly damping = 0.88
-
+  private locked = false
   private onSwitch?: (dir: 1 | -1) => void
 
   defineOnSwitch(fn: (dir: 1 | -1) => void) {
@@ -88,6 +88,7 @@ export class CarouselAccumulator {
   }
 
   consume(payload: VirtualScrollData) {
+    if (this.locked) return
     const { deltaY } = payload
     const delta = deltaY * 0.004
 
@@ -100,9 +101,13 @@ export class CarouselAccumulator {
 
     // 判断翻页（用视觉值！）
     if (Math.abs(this.value) >= this.threshold) {
-      this.onSwitch?.(this.dir)
-      // 翻页后保留一点残余，避免“断感”
-      this.value = 0
+      this.locked = true
+      requestAnimationFrame(() => {
+        this.onSwitch?.(this.dir)
+        // 翻页后保留一点残余，避免“断感”
+        this.value = 0
+      })
+
     }
   }
 
@@ -126,5 +131,8 @@ export class CarouselAccumulator {
   stop() {
     if (this.rafId) cancelAnimationFrame(this.rafId)
     this.rafId = null
+  }
+  unlock() {
+    this.locked = false
   }
 }

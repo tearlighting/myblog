@@ -51,8 +51,7 @@ export const useInitStateTransition = ({ changeActiveIndex, track }: IUseInitSta
     })
   })
   subPubIns.subscribe(ECarouselPhase.ready, () => {
-    console.log(ECarouselPhase.ready)
-
+    carouselGlueIns.current?.unlock()
     carouselGlueIns.current?.start()
   })
 }

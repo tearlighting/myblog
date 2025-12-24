@@ -33,4 +33,7 @@ export class CarouselGlue {
         this._carouselAccuulatorIns.defineOnSwitch(fn)
         return this
     }
+    unlock() {
+        this._carouselAccuulatorIns.unlock()
+    }
 }
