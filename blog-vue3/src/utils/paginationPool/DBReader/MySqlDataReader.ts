@@ -14,7 +14,6 @@ export class MySqlDataReader<T extends Record<string, any>> implements IReadDB<T
         let res: T[] = []
         try {
             const { data } = await this._callback({ limit: this._limit, page: this._currentPage++ })
-            console.log(this._currentPage);
             res = data
         } catch (e) {
             console.error(e)

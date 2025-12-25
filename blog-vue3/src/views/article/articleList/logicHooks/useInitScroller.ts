@@ -14,7 +14,6 @@ export const useInitScroller = () => {
     }
     watch(() => [], async () => {
         await nextTick()
-        console.log(scrollerRef.value, scrollerContentRef.value);
 
         if (!scrollerRef.value || !scrollerContentRef.value) return
         lenisRef.current = createLenis({

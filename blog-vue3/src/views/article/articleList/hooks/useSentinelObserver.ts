@@ -31,7 +31,7 @@ export const useSentinelObserver = (): IUseSentinelObserver => {
             },
             {
                 root: root,
-                rootMargin: '200px', //  提前触发
+                rootMargin: '100px', //  提前触发
                 threshold: 0,
             }
         )

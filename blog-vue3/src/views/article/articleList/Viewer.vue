@@ -4,10 +4,11 @@ import { storeToRefs } from "pinia"
 import { computed, nextTick, ref, watch } from "vue"
 import ArticleItem from "./components/ArticleItem.vue"
 import ArticleTagRail from "./components/ArticleTagRail.vue"
-import { useInitScroller } from "./logicHooks"
+import ArticleTail from "./components/ArticleTail.vue"
+import { useInitScroller, useToNextPage } from "./logicHooks"
 import { useArticleStore } from "./store/useArticleStore"
 const {
-  articleStore: { articles, categories, toNextPage },
+  articleStore: { articles, categories },
   sentinelObserver: { build },
 } = useArticleStore()
 
@@ -26,6 +27,7 @@ const translatedArticle = computed(() => {
 
 const sentinelRef = ref<HTMLElement>()
 const { scrollerRef, scrollerContentRef } = useInitScroller()
+const { toNextPage, loadingTransition, exhausted } = useToNextPage()
 watch(
   translatedArticle,
   async () => {
@@ -36,6 +38,8 @@ watch(
       root: scroller,
       sentinel,
       onReachBottom() {
+        console.log("next")
+
         toNextPage()
       },
     })
@@ -55,6 +59,9 @@ watch(
         </li>
         <!-- 最后加一个哨兵 -->
         <li ref="sentinelRef" aria-hidden class="h-[1px]" />
+        <li role="article-tail">
+          <ArticleTail :loading="loadingTransition" :exhausted="exhausted" />
+        </li>
       </ul>
     </div>
     <div role="article-tags" class="absolute right-5 top-1/2 -translate-y-1/2">
