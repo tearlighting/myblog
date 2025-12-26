@@ -13,12 +13,14 @@ interface IToNextPageCxt {
 }
 
 const getPendingArticleList = async ({ currentPage }: IToNextPageCxt) => {
-    const { articleStore: { paginationPoolIns } } = useArticleStore()
+    const { articleStore: { paginationPoolIns }, articleCategoriesStore: { filter } } = useArticleStore()
     //为了保证逻辑的一致性，当数量不够，也要翻页，但是这样只请求下一页很明显是不对的
     //极端情况是当前也可能有了数据更新，下一页还是空的
     //而且不要在意getPageData,他和请求API没有关系
-    const currentPageArticles = await paginationPoolIns.getPageData(currentPage.current)
-    const nextPageArticle = currentPageArticles.length >= EPageConfig.pageSize ? await paginationPoolIns.getPageData(currentPage.current + 1) : []
+
+
+    const currentPageArticles = await paginationPoolIns.getPageData(currentPage.current, x => filter.value.includes(x.category.id))
+    const nextPageArticle = currentPageArticles.length >= EPageConfig.pageSize ? await paginationPoolIns.getPageData(currentPage.current + 1, x => filter.value.includes(x.category.id)) : []
     if (nextPageArticle.length) {
         currentPage.current++
     }
@@ -38,6 +40,8 @@ const showLoading: FlowMiddleWareCallback<IToNextPageCxt> = async (ctx, next) =>
 const updateArticleList: FlowMiddleWareCallback<IToNextPageCxt> = async (ctx, next) => {
     const { pendingArticleList } = ctx
     const { articleStore: { articles } } = useArticleStore()
+    console.log(articles, pendingArticleList);
+
     const beforeLength = articles.length
     mergeByKey(articles, pendingArticleList || [], x => x.id)
     const afterLength = articles.length
@@ -71,10 +75,16 @@ export const useToNextPage = () => {
         })
         loading.value = false
     }
+    const resetCurrentPage = () => {
+        currentPage.current = 1
+        loading.value = false
+        exhaustedCount.value = 0
+    }
     return {
         toNextPage,
         loadingTransition,
         exhausted,
-        pendingExhausted
+        pendingExhausted,
+        resetCurrentPage
     }
 }

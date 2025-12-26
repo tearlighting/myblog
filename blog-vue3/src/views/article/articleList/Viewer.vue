@@ -8,7 +8,8 @@ import ArticleTail from "./components/ArticleTail.vue"
 import { useInitScroller, useToNextPage } from "./logicHooks"
 import { useArticleStore } from "./store/useArticleStore"
 const {
-  articleStore: { articles, categories },
+  articleStore: { articles, paginationPoolIns },
+  articleCategoriesStore: { categories, activedCategories, filter },
   sentinelObserver: { build },
 } = useArticleStore()
 
@@ -27,7 +28,8 @@ const translatedArticle = computed(() => {
 
 const sentinelRef = ref<HTMLElement>()
 const { scrollerRef, scrollerContentRef } = useInitScroller()
-const { toNextPage, loadingTransition, exhausted } = useToNextPage()
+const { toNextPage, loadingTransition, exhausted, resetCurrentPage } = useToNextPage()
+const changeFilterRef = ref(false)
 watch(
   translatedArticle,
   async () => {
@@ -38,8 +40,7 @@ watch(
       root: scroller,
       sentinel,
       onReachBottom() {
-        console.log("next")
-
+        if (changeFilterRef.value) return
         toNextPage()
       },
     })
@@ -48,6 +49,19 @@ watch(
     immediate: true,
   }
 )
+
+const selectCategory = (id: string) => {
+  activedCategories.has(id) ? activedCategories.delete(id) : activedCategories.add(id)
+}
+
+watch(filter, async () => {
+  changeFilterRef.value = true
+  resetCurrentPage()
+  articles.length = 0
+  await toNextPage()
+  await nextTick()
+  changeFilterRef.value = false
+})
 </script>
 
 <template>
@@ -65,7 +79,7 @@ watch(
       </ul>
     </div>
     <div role="article-tags" class="absolute right-5 top-1/2 -translate-y-1/2">
-      <ArticleTagRail :items="categories"></ArticleTagRail>
+      <ArticleTagRail :items="categories" :active-ids="activedCategories" @select="selectCategory"></ArticleTagRail>
     </div>
   </div>
 </template>

@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import { watch } from "vue"
-
 interface IArticleTailProps {
   loading: boolean
   exhausted: boolean
 }
-const props = defineProps<IArticleTailProps>()
-watch(
-  () => props.exhausted,
-  () => {
-    console.log(props.exhausted)
-  }
-)
+defineProps<IArticleTailProps>()
 </script>
 
 <template>

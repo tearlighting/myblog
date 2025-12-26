@@ -1,21 +1,18 @@
 import { getArticles } from "@/api"
 import { MySqlDataReader, PaginationPool, PaginationPoolBuilder } from "@/utils"
 
-import type { IArticleCategoryItem, IArticleItem } from "article"
+import type { IArticleItem } from "article"
 import dayjs from "dayjs"
 import { reactive } from "vue"
 import { EPageConfig } from "../constant"
 
 interface IUseArticleListInitialProps {
     articles: IArticleItem[]
-    categories: IArticleCategoryItem[]
 }
 
 interface IUseArticleList extends IDisposableStore<IUseArticleListInitialProps> {
     articles: IArticleItem[]
-    categories: IArticleCategoryItem[]
     paginationPoolIns: PaginationPool<IArticleItem>
-
 }
 
 export const useArticleList = (): IUseArticleList => {
@@ -35,27 +32,21 @@ export const useArticleList = (): IUseArticleList => {
     }).build()
 
     const articles: IUseArticleList["articles"] = reactive<IArticleItem[]>([])
-    const categories: IArticleCategoryItem[] = reactive<IArticleCategoryItem[]>([])
 
-    const init: IUseArticleList["init"] = ({ articles: articleList, categories: articleCategories }) => {
 
+    const init: IUseArticleList["init"] = ({ articles: articleList, }) => {
         articles.splice(0, articles.length, ...articleList.slice(0, EPageConfig.pageSize))
-        categories.splice(0, categories.length, ...articleCategories)
         paginationPoolIns.updatePoolManual(articleList)
     }
     const dispose = () => {
         articles.length = 0
-        categories.length = 0
         paginationPoolIns.clearCache()
     }
     return {
         articles,
-        categories,
         init,
         dispose,
         paginationPoolIns,
-
-
     }
 }
 

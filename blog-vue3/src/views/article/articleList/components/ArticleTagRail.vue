@@ -4,7 +4,7 @@ import clsx from "clsx"
 
 const props = defineProps<{
   items: IArticleCategoryItem[]
-  activeId?: string
+  activeIds?: Set<string>
 }>()
 
 const emit = defineEmits<{
@@ -21,7 +21,7 @@ const intensity = (count: number) => Math.min(1, 0.35 + (count / maxCount) * 0.6
       v-for="item in items"
       :key="item.id"
       role="tag-node"
-      :class="clsx(item.id === activeId && 'active')"
+      :class="clsx(activeIds?.has(item.id) && 'active')"
       :style="{ '--intensity': intensity(item.articleCount) }"
       @click="emit('select', item.id)"
     >
@@ -105,6 +105,10 @@ const intensity = (count: number) => Math.min(1, 0.35 + (count / maxCount) * 0.6
     font-style: normal;
     opacity: 0.45;
     font-size: 0.85em;
+  }
+  &.active {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
