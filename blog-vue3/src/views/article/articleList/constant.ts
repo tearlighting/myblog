@@ -1,3 +1,3 @@
 export const enum EPageConfig {
-    pageSize = 5
+  pageSize = 10,
 }
