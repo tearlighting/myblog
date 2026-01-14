@@ -1,8 +1,9 @@
 import { getArticleCategories, getArticles, type IPagination } from "@/api"
 import { useArticleStore } from "./store/useArticleStore"
-interface ArticleInitailProps extends IPagination {}
-type TRes = Parameters<ReturnType<typeof useArticleStore>["init"]>[0]
-export const initializer = async (payload: ArticleInitailProps): Promise<TRes> => {
+interface IArticleInitailProps extends IPagination { }
+
+
+export const initializer: TStoreInitializer<ReturnType<typeof useArticleStore>, IArticleInitailProps> = async (payload) => {
   try {
     const [categories, articles] = await Promise.all([getArticleCategories(), getArticles(payload)])
     if (articles.msg) throw new Error(articles.msg)
@@ -44,3 +45,5 @@ export const initializer = async (payload: ArticleInitailProps): Promise<TRes> =
     throw err
   }
 }
+
+

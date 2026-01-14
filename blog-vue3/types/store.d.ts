@@ -6,12 +6,15 @@ interface IDisposableStore<TPayload = never> {
 }
 type TInitParamsIntersection<T extends Record<string, IDisposableStore<any> | IDisposableStore<never>>> =
   UnionToIntersection<
-    TInitProps<T[keyof T]>
+    TStoreInitProps<T[keyof T]>
   >
 
 
 type TAllVoid<T> =
-  TInitProps<T[keyof T]> extends void ? true : false
+  TStoreInitProps<T[keyof T]> extends void ? true : false
 
-type TInitProps<T extends IDisposableStore> = T extends IDisposableStore<infer P> ? P : never
+type TStoreInitProps<T extends IDisposableStore> = T extends IDisposableStore<infer P> ? P : never
+
+
+type TStoreInitializer<TStore extends { init: (...args: any[]) => void }, TParams = {}, TReturn = Parameters<TStore["init"]>[0]> = (payload: TParams) => TReturn | Promise<TReturn>
 

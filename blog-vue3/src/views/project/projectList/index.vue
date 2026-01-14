@@ -2,9 +2,9 @@
 import PageLoader from "@/components/PageLoader/index.vue"
 import { computed } from "vue"
 import { useRoute } from "vue-router"
-import ProjectTrack from "./components/ProjectTrack.vue"
 import { initializer } from "./initializer"
 import { useProjectStore } from "./store"
+import Viewer from "./Viewer.vue"
 
 defineOptions({
   name: "project",
@@ -25,7 +25,7 @@ const routeInfo = computed(() => {
 
 <template>
   <PageLoader :use-store="useProjectStore" :initializer="initializer" :payload="routeInfo" ref="targetRef">
-    <ProjectTrack></ProjectTrack>
+    <Viewer />
   </PageLoader>
 </template>
 

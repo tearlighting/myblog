@@ -1,8 +1,8 @@
 export class PageLoaderBuilder<Payload = any, IntialProps = any> {
   public initializer: null | ((props: Payload) => IntialProps) = null
   public payload: Payload | null = null
-  constructor(public useStore: () => IDisposableStore<IntialProps>) {}
-  defineInitializer<NewPayload>(initializer: (props: NewPayload) => IntialProps): PageLoaderBuilder<NewPayload, IntialProps> {
+  constructor(public useStore: () => IDisposableStore<IntialProps>) { }
+  defineInitializer<NewPayload>(initializer: (props: NewPayload) => IntialProps | Promise<IntialProps>): PageLoaderBuilder<NewPayload, IntialProps> {
     this.initializer = initializer as any
     return this as any
   }

@@ -1,17 +1,17 @@
 import { createLenis, getTopElement } from "@/utils"
 import type Lenis from "lenis"
 import { nextTick, ref, watch } from "vue"
-import type { useTranslatedProject } from "./useTranslatedProject"
+import type { useTranslatedArticle } from "./useTranslatedArticle"
 
 interface IUseInitScrollerProps {
-    translatedProjectItem: ReturnType<typeof useTranslatedProject>['translatedProjectItem']
+    translatedArticleItem: ReturnType<typeof useTranslatedArticle>["translatedArticleItem"]
     tocElMap: Map<string, HTMLElement>
     tocOffsetTop?: number
     toAnchorProcessing: {
         current: boolean;
     }
 }
-export const useInitScroller = ({ translatedProjectItem, tocElMap, tocOffsetTop = 0, toAnchorProcessing }: IUseInitScrollerProps) => {
+export const useInitScroller = ({ translatedArticleItem, tocElMap, tocOffsetTop = 0, toAnchorProcessing }: IUseInitScrollerProps) => {
     const scrollerRef = ref<HTMLElement | null>(null)
     const scrollerContentRef = ref<HTMLElement | null>(null)
     const lensInsRef = {
@@ -26,7 +26,7 @@ export const useInitScroller = ({ translatedProjectItem, tocElMap, tocOffsetTop 
         activeAnchor.value = getTopElement(tocElMap, scroller, tocOffsetTop, scroller.clientHeight * 0.2)
     }
     watch(
-        () => translatedProjectItem.value,
+        () => translatedArticleItem.value,
         async () => {
             await nextTick()
             if (lensInsRef.current) return
@@ -46,8 +46,8 @@ export const useInitScroller = ({ translatedProjectItem, tocElMap, tocOffsetTop 
     }
     )
 
-    watch(() => translatedProjectItem.value?.toc, async () => {
-        if (!translatedProjectItem.value?.toc) return
+    watch(() => translatedArticleItem.value?.toc, async () => {
+        if (!translatedArticleItem.value?.toc) return
         await nextTick()
         updateActive()
     }, {

@@ -184,6 +184,15 @@ export const routes = createRoutes([
         title: "article",
         roles: [EPemission.visitor],
       }
+    }, {
+      component: () => import("@/views/article/articleDetail/index.vue"),
+      path: "detail/:id",
+      name: "articleDetail",
+      meta: {
+        keepAlive: true,
+        title: "articleDetail",
+        roles: [EPemission.visitor],
+      }
     }]
   },
   {

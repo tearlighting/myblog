@@ -1,5 +1,6 @@
 export * from "./autoPlay"
 export * from "./common"
+export * from "./concurrentQueue"
 export * from "./loading"
 export * from "./menu"
 export * from "./middleware"

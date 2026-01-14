@@ -18,7 +18,7 @@ export interface IArticleTranslation {
     lang: string
     title: string
     description: string
-    toc: Toc
+    toc: Toc[]
     htmlContent: string
 }
 
@@ -27,4 +27,12 @@ export interface IArticleCategoryItem {
     name: string
     articleCount: number
     order: number
+}
+
+export interface IArticleDetail {
+    id: string
+    scanNumber: number
+    commentNumber: number
+    createdAt: string
+    translations: IArticleTranslation[]
 }
