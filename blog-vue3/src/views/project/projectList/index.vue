@@ -24,7 +24,7 @@ const routeInfo = computed(() => {
 </script>
 
 <template>
-  <PageLoader :use-store="useProjectStore" :initializer="initializer" :payload="routeInfo" ref="targetRef">
+  <PageLoader :use-store="useProjectStore" :initializer="initializer" :payload="routeInfo">
     <Viewer />
   </PageLoader>
 </template>
