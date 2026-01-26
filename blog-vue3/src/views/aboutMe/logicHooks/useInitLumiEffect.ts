@@ -6,7 +6,12 @@ interface IUseInitLumiEffect {
     scrollerContent: HTMLElement
 }
 export const useInitLumiEffect = ({ scrollerContent, scrollerWrapper }: IUseInitLumiEffect) => {
-    const { aboutMeSubPub: { subPubIns }, yAxisGlueIns, xAxisPhaseStateMachineRef, yAxisPhaseStateMachineRef } = useAboutMeStore()
+    const {
+        aboutMeSubPub: { subPubIns },
+        yAxisGlueIns,
+        xAxisPhaseStateMachineRef,
+        yAxisPhaseStateMachineRef,
+    } = useAboutMeStore()
     const lenisIns = createLenis({
         wrapper: scrollerWrapper,
         content: scrollerContent,
@@ -16,15 +21,21 @@ export const useInitLumiEffect = ({ scrollerContent, scrollerWrapper }: IUseInit
 }
 
 const initXAxisEffect = ({ scrollerWrapper }: IUseInitLumiEffect) => {
-    const { aboutMeSubPub: { subPubIns }, xAxisGlueIns, xAxisPhaseStateMachineRef, yAxisPhaseStateMachineRef } = useAboutMeStore()
-    const gluer = new XAxisGlue(new XAxisAccumulator(), subPubIns).defineOnEdgeSwitchIntent((dir) => {
-        console.log("switch", dir);
-
-    }).defineApply(({ x, pressure, dir }) => {
-        scrollerWrapper.style.setProperty("--x", String(x))
-        scrollerWrapper.style.setProperty("--pressure", String(pressure))
-        scrollerWrapper.style.setProperty("--xdir", String(dir))
-    })
+    const {
+        aboutMeSubPub: { subPubIns },
+        xAxisGlueIns,
+        xAxisPhaseStateMachineRef,
+        yAxisPhaseStateMachineRef,
+    } = useAboutMeStore()
+    const gluer = new XAxisGlue(new XAxisAccumulator(), subPubIns)
+        .defineOnEdgeSwitchIntent((dir) => {
+            console.log("switch", dir)
+        })
+        .defineApply(({ x, pressure, dir }) => {
+            scrollerWrapper.style.setProperty("--x", String(x))
+            scrollerWrapper.style.setProperty("--pressure", String(pressure))
+            scrollerWrapper.style.setProperty("--xdir", String(dir))
+        })
     gluer.start()
     xAxisGlueIns.current = gluer
 }
@@ -42,4 +53,3 @@ const initXAxisEffect = ({ scrollerWrapper }: IUseInitLumiEffect) => {
 //     gluer.start()
 //     yAxisGlueIns.current = gluer
 // }
-

@@ -1,6 +1,6 @@
-import { createHookStore, createUseSubBub, withMergeDispose } from "@/utils";
-import type { ELumiTopic, XAxisGlue } from "../core";
-import { EXAxisPhase, EYAxisPhase, XAxisPhaseStateMachine, YAxisPhaseStateMachine } from "../utils";
+import { createHookStore, createUseSubBub, withMergeDispose } from "@/utils"
+import type { ELumiTopic, XAxisGlue } from "../core"
+import { EXAxisPhase, EYAxisPhase, XAxisPhaseStateMachine, YAxisPhaseStateMachine } from "../utils"
 
 export const useAboutMeStore = createHookStore(() => {
     const xAxisGlueIns = {
@@ -16,8 +16,6 @@ export const useAboutMeStore = createHookStore(() => {
     const yAxisPhaseStateMachineRef = {
         current: null as null | YAxisPhaseStateMachine,
     }
-
-
 
     const { init, initialized, dispose, aboutMeSubPub, ...rest } = withMergeDispose({
         aboutMeSubPub: createUseSubBub<ELumiTopic | EXAxisPhase | EYAxisPhase>()(),
@@ -51,4 +49,4 @@ export const useAboutMeStore = createHookStore(() => {
         xAxisPhaseStateMachineRef,
         yAxisPhaseStateMachineRef,
     }
-}) 
+})
