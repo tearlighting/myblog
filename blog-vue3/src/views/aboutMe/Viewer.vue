@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMounted } from "@/hooks/useMounted"
 import { useTemplateRef } from "vue"
+import Gap from "./components/Gap.vue"
 import Section from "./components/Section.vue"
 import { useInitLumiEffect } from "./logicHooks"
 
@@ -19,7 +20,9 @@ useMounted(() => {
 <template>
   <div class="text-white size-full overflow-hidden" role="about-me-container" ref="scrollerWrapper">
     <div role="about-me-content" class="size-full flex flex-nowrap" ref="aboutMeContent">
-      <Section class="size-full w-[200%]! shrink-0">about1</Section>
+      <Section class="size-full shrink-0"><Gap /></Section>
+
+      <Section class="size-full shrink-0">about1</Section>
       <Section role="about-gap" class="size-full shrink-0"></Section>
       <Section class="size-full shrink-0">about2</Section>
       <Section role="about-gap" class="size-full shrink-0"></Section>

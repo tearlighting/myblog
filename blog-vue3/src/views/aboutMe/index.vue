@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PageLoader from "@/components/PageLoader/index.vue"
+import AboutMeDemo from "./AboutMeDemo.vue"
 import { useAboutMeStore } from "./store"
-import Viewer from "./Viewer.vue"
 
 defineOptions({
   name: "AboutMe",
@@ -10,7 +10,7 @@ defineOptions({
 
 <template>
   <PageLoader :use-store="useAboutMeStore" :initializer="() => ({})">
-    <Viewer />
+    <AboutMeDemo />
   </PageLoader>
 </template>
 
