@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import PageLoader from "@/components/PageLoader/index.vue"
-import AboutMeDemo from "./AboutMeDemo.vue"
+// import AboutExperience from "./AboutExperience.vue"
+import DemoNew from "./DemoNew.vue"
 import { useAboutMeStore } from "./store"
-
 defineOptions({
   name: "AboutMe",
 })
@@ -10,7 +10,7 @@ defineOptions({
 
 <template>
   <PageLoader :use-store="useAboutMeStore" :initializer="() => ({})">
-    <AboutMeDemo />
+    <DemoNew />
   </PageLoader>
 </template>
 

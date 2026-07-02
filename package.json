@@ -2,6 +2,7 @@
   "name": "tearlighting-blog",
   "scripts": {
     "dev:vue2": "cd legacy-vue2 && pnpm dev",
-    "dev:vue3": "cd blog-vue3 && pnpm dev"
+    "dev:vue3": "cd blog-vue3 && pnpm dev",
+    "typecheck": "cd blog-vue3 && pnpm typecheck"
   }
 }
