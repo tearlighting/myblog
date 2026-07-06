@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMounted } from "@/hooks/useMounted"
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
 import { useTemplateRef } from "vue"
 import Gap from "./components/Gap.vue"
 import Section from "./components/Section.vue"
@@ -8,7 +8,7 @@ import { useInitLumiEffect } from "./logicHooks"
 const scrollerWrapperRef = useTemplateRef("scrollerWrapper")
 const scrollerContentRef = useTemplateRef("aboutMeContent")
 
-useMounted(() => {
+useNextTrickEffect(() => {
   if (!scrollerContentRef.value || !scrollerWrapperRef.value) return
   useInitLumiEffect({
     scrollerContent: scrollerContentRef.value,

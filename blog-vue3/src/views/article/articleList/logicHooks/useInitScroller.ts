@@ -1,6 +1,7 @@
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
 import { createLenis } from "@/utils"
 import type Lenis from "lenis"
-import { nextTick, ref, watch } from "vue"
+import { ref } from "vue"
 import { useArticleStore } from "../store/useArticleStore"
 
 export const useInitScroller = () => {
@@ -12,22 +13,21 @@ export const useInitScroller = () => {
     const lenisRef = {
         current: null as Lenis | null
     }
-    watch(() => [], async () => {
-        await nextTick()
 
+    useNextTrickEffect(() => {
         if (!scrollerRef.value || !scrollerContentRef.value) return
         lenisRef.current = createLenis({
             wrapper: scrollerRef.value,
             content: scrollerContentRef.value,
         })
-    }, {
-        immediate: true
+        return () => {
+            lenisRef.current?.destroy()
+        }
     })
 
-    watch(() => articles.length, async () => {
-        await nextTick()
+    useNextTrickEffect(() => {
         lenisRef.current?.resize()
-    })
+    }, () => articles.length)
 
     return {
         scrollerRef,

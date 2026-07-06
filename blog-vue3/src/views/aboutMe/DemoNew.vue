@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
+import { createLenis } from "@/utils"
 import { onMounted, onUnmounted, ref } from "vue"
 
 const scrollRef = ref<HTMLElement | null>(null)
+const scrollSpaceRef = ref<HTMLElement | null>(null)
 const trackRef = ref<HTMLElement | null>(null)
+let lenisIns: ReturnType<typeof createLenis> | null = null
 
 const sceneCount = 4
 
@@ -21,15 +25,34 @@ const update = () => {
 }
 
 onMounted(() => {
+  const scroll = scrollRef.value
+  const scrollSpace = scrollSpaceRef.value
+  if (!scroll || !scrollSpace) return
+
+  lenisIns = createLenis({
+    wrapper: scroll,
+    content: scrollSpace,
+    eventsTarget: scroll,
+  })
+  lenisIns.on("virtual-scroll", update)
   update()
-  scrollRef.value?.addEventListener("scroll", update, { passive: true })
   window.addEventListener("resize", update)
 })
 
 onUnmounted(() => {
-  scrollRef.value?.removeEventListener("scroll", update)
+  lenisIns?.off("virtual-scroll", update)
+  lenisIns?.destroy()
+  lenisIns = null
   window.removeEventListener("resize", update)
 })
+
+const a = ref(1)
+useNextTrickEffect(
+  () => {
+    console.log(a.value)
+  },
+  () => [a.value],
+)
 </script>
 
 <template>
@@ -69,7 +92,7 @@ onUnmounted(() => {
     </div>
 
     <div ref="scrollRef" class="internal-scroll">
-      <div class="scroll-space" />
+      <div ref="scrollSpaceRef" class="scroll-space" />
     </div>
   </section>
 </template>

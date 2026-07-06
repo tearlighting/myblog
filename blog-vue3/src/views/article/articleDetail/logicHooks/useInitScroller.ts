@@ -1,6 +1,7 @@
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
 import { createLenis, getTopElement } from "@/utils"
 import type Lenis from "lenis"
-import { nextTick, ref, watch } from "vue"
+import { ref } from "vue"
 import type { useTranslatedArticle } from "./useTranslatedArticle"
 
 interface IUseInitScrollerProps {
@@ -25,34 +26,30 @@ export const useInitScroller = ({ translatedArticleItem, tocElMap, tocOffsetTop 
         if (!scroller) return
         activeAnchor.value = getTopElement(tocElMap, scroller, tocOffsetTop, scroller.clientHeight * 0.2)
     }
-    watch(
-        () => translatedArticleItem.value,
-        async () => {
-            await nextTick()
-            if (lensInsRef.current) return
-            if (!scrollerRef.value || !scrollerContentRef.value) return
-            lensInsRef.current = createLenis({
-                wrapper: scrollerRef.value,
-                content: scrollerContentRef.value,
-            })
 
-            lensInsRef.current.on("scroll", () => {
-                if (toAnchorProcessing.current) return
-                updateActive()
-            })
+    useNextTrickEffect(() => {
+        if (lensInsRef.current) return
+        if (!scrollerRef.value || !scrollerContentRef.value) return
+        lensInsRef.current = createLenis({
+            wrapper: scrollerRef.value,
+            content: scrollerContentRef.value,
+        })
 
-        }, {
-        immediate: true
-    }
-    )
+        lensInsRef.current.on("scroll", () => {
+            if (toAnchorProcessing.current) return
+            updateActive()
+        })
+        return () => {
+            lensInsRef.current?.destroy()
+        }
+    }, () => translatedArticleItem.value)
 
-    watch(() => translatedArticleItem.value?.toc, async () => {
+
+    useNextTrickEffect(() => {
         if (!translatedArticleItem.value?.toc) return
-        await nextTick()
         updateActive()
-    }, {
-        immediate: true
-    })
+    }, () => translatedArticleItem.value?.toc)
+
     return {
         scrollerRef,
         scrollerContentRef,

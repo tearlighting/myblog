@@ -1,24 +1,21 @@
 <script lang="ts" setup>
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
 import { useThemeStore } from "@/store"
 import clsx from "clsx"
 import { storeToRefs } from "pinia"
 import { highlightAll } from "prismjs"
-import { computed, nextTick, watch } from "vue"
+import { computed } from "vue"
 
 interface IProps {
   article?: string
 }
 const props = defineProps<IProps>()
 
-watch(
-  () => props.article,
-  async () => {
-    await nextTick()
+useNextTrickEffect(
+  () => {
     highlightAll()
   },
-  {
-    immediate: true,
-  }
+  () => props.article,
 )
 
 const { currentTheme } = storeToRefs(useThemeStore())
@@ -88,7 +85,10 @@ const isLightTheme = computed(() => {
       border-radius: 14px;
       border: 1px solid var(--divider);
       // box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04), inset 0 0 0 1px var(--divider), inset 0 0 40px color-mix(in srgb, var(--color-primary) 6%, transparent);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.04),
+        inset 0 0 0 1px var(--divider),
+        inset 0 0 40px color-mix(in srgb, var(--color-primary) 6%, transparent);
       animation: article-breathe 12s ease-in-out infinite;
       .lightThemePrism();
     }

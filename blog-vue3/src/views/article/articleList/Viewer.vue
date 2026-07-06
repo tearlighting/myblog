@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
 import { useLanguageStore } from "@/store"
 import { storeToRefs } from "pinia"
 import { computed, nextTick, ref, watch } from "vue"
@@ -34,14 +35,12 @@ const { scrollerRef, scrollerContentRef, lenisRef } = useInitScroller()
 const { toNextPage, loadingTransition, exhausted, switching, filterPage } = useToNextPage()
 
 let isFiltering = false
-let initialed = false
+let initialized = false
 
 //init infinite scroll to load next page data
-watch(
-  translatedArticle,
-  async () => {
-    await nextTick()
-    if (initialed) return
+useNextTrickEffect(
+  () => {
+    if (initialized) return
     const sentinel = sentinelRef.value!
     const scroller = scrollerRef.value!
     build({
@@ -53,11 +52,9 @@ watch(
         toNextPage()
       },
     })
-    initialed = true
+    initialized = true
   },
-  {
-    immediate: true,
-  }
+  () => translatedArticle,
 )
 
 const selectCategory = (id: string) => {
@@ -77,7 +74,7 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 
 const { push } = useRouter()

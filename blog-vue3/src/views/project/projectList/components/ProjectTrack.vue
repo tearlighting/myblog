@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useNextTrickEffect } from "@/hooks/useNextTrickEffect"
 import { sleep } from "@/utils"
 import clsx from "clsx"
 import { nextTick, ref, watch } from "vue"
@@ -18,13 +19,10 @@ const { jumpTo } = useSwithOnClick()
 const targetRef = ref<HTMLDivElement>()
 let initialized = false
 
-watch(
-  projects,
-  async () => {
+useNextTrickEffect(
+  () => {
     if (!projects) return
     if (initialized) return
-    initialized = true
-    await nextTick()
     useInitCarousel({
       target: targetRef.value!,
       track: targetRef.value!,
@@ -34,9 +32,7 @@ watch(
       track: targetRef.value!,
     })
   },
-  {
-    immediate: true,
-  }
+  () => projects,
 )
 
 watch(
@@ -54,7 +50,7 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 
 const { push } = useRouter()
@@ -90,15 +86,21 @@ const toDetailPage = (id: string) => {
 <style lang="less" scoped>
 @keyframes card-breathe {
   0% {
-    box-shadow: 0 12px 28px color-mix(in srgb, #000 35%, transparent), 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+    box-shadow:
+      0 12px 28px color-mix(in srgb, #000 35%, transparent),
+      0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
   }
 
   50% {
-    box-shadow: 0 16px 36px color-mix(in srgb, #000 45%, transparent), 0 0 28px color-mix(in srgb, var(--color-primary) 28%, transparent);
+    box-shadow:
+      0 16px 36px color-mix(in srgb, #000 45%, transparent),
+      0 0 28px color-mix(in srgb, var(--color-primary) 28%, transparent);
   }
 
   100% {
-    box-shadow: 0 12px 28px color-mix(in srgb, #000 35%, transparent), 0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
+    box-shadow:
+      0 12px 28px color-mix(in srgb, #000 35%, transparent),
+      0 0 0 color-mix(in srgb, var(--color-primary) 0%, transparent);
   }
 }
 
@@ -123,7 +125,10 @@ const toDetailPage = (id: string) => {
   }
 
   [role="card-wrapper"] {
-    transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
+    transition:
+      transform 0.5s ease,
+      filter 0.5s ease,
+      opacity 0.5s ease;
 
     &.pre-card {
       overflow: hidden;
